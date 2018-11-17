@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "921009788363-rnaf3kegcrfuchh8tn23cmtrpfkjv72k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsd.eng.campr",
+            "certificate_hash": "22cc40d123348539554a6900c101bda3e87c35fd"
+          }
+        },
+        {
           "client_id": "921009788363-se8mc3gg58c43b47re79uvk7pardumat.apps.googleusercontent.com",
           "client_type": 3
         }
