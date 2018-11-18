@@ -5,4 +5,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="pet_name">Enter pet\'s name</string>
+    <string name="pet_gender">Enter pet\'s gender</string>
+    <string name="pet_info">Enter brief description</string>
+    <string name="listed_pets">Listed Pets</string>
+    <string name="list_new_pet">List new pet</string>
+    <string name="view_pet">Pet\'s profile</string>
 </resources>

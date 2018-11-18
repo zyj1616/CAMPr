@@ -16,7 +16,7 @@ public class User {
 	private Pet[] listedPets;
 	
 	public User(String adopterID, String listerID, String firstName, String lastName, String userName,
-			String emailAddress, String phoneNumber, String city, String state, Pet[] chosenPets, Pet[] listedPets) {
+			String emailAddress, String phoneNumber, String city, String state, Pet[] chosenPets, Pet[] listedPets, boolean role) {
 		this.adopterID = adopterID;
 		this.listerID = listerID;
 		this.firstName = firstName;
@@ -118,7 +118,7 @@ public class User {
 		this.listedPets = listedPets;
 	}
 
-	@Override
+    @Override
 	public String toString() {
 		return "User [adopterID=" + adopterID + ", listerID=" + listerID + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", userName=" + userName + ", emailAddress=" + emailAddress + ", phoneNumber="

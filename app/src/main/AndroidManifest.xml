@@ -23,7 +23,9 @@
         <activity
             android:name=".ListerPetList"
             android:label="@string/title_activity_lister_pet_list" />
-        <activity android:name=".SwitchActivity"></activity>
+        <activity android:name=".SwitchActivity" />
+        <activity android:name=".AddPetActivity" />
+        <activity android:name=".ViewPetActivity"></activity>
     </application>
 
 </manifest>
