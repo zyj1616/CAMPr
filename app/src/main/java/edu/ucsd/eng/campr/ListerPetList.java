@@ -18,8 +18,6 @@ import java.util.List;
 
 public class ListerPetList extends AppCompatActivity {
 
-    //TODO: Merge this class with the Pet Class
-
     private TextView mTextMessage;
     public static RecyclerView recyclerView;
     public RecyclerView.Adapter mAdapter;
@@ -62,16 +60,10 @@ public class ListerPetList extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MyAdapter(input);
         recyclerView.setAdapter(mAdapter);
-
-        FloatingActionButton addFab = findViewById(R.id.floatingActionButton);
-        addFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO: Start a new activity to create a pet
-                startActivity(new Intent(ListerPetList.this, AddPetActivity.class));
-            }
-        });
     }
 
-
+    protected void newPet(View view) {
+        startActivity(new Intent(this, AddPetActivity.class));
+    }
 
 }

@@ -5,6 +5,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Pets implements Parcelable {
+
+    //TODO: Merge this class with the Pet Class
     private String name;
     private String gender;
     private String info;
