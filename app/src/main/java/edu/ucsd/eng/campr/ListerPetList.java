@@ -62,8 +62,13 @@ public class ListerPetList extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    protected void newPet(View view) {
+    protected void startNewPetActivity(View view) {
         startActivity(new Intent(this, AddPetActivity.class));
+    }
+
+    protected static void addPetToDatabase(Pets pet) {
+        myPets.put(pet.getPetId(), pet);
+        // TODO: Push to firebase
     }
 
 }

@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 
 public class AddPetActivity extends AppCompatActivity {
@@ -42,9 +45,12 @@ public class AddPetActivity extends AppCompatActivity {
         temp = findViewById(R.id.editTextPetDescription);
         String info = temp.getText().toString();
 
-        ListerPetList.input.add(new Pets(name, gender, info, name+gender+info, pic)); // Add to list for recyclerView
-        ListerPetList.myPets.put(name+gender+info, new Pets(name, gender, info, name+gender+info, pic)); // Add to hashmap
+        Pets newPet = new Pets(name, gender, info, name+gender+info, pic);
+        ListerPetList.input.add(newPet); // Add to list for recyclerView
+        Pets pet = new Pets(name, gender, info, name+gender+info, pic);
+        ListerPetList.addPetToDatabase(pet); // Add to hashmap
         ListerPetList.recyclerView.getAdapter().notifyDataSetChanged(); //Update view
+
         finish();
     }
 

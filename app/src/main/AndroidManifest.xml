@@ -22,9 +22,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListerPetList"
-            android:label="@string/title_activity_lister_pet_list" />
+            android:label="Pets I've Added" />
         <activity android:name=".SwitchActivity" />
-        <activity android:name=".AddPetActivity" />
+        <activity
+            android:name=".AddPetActivity"
+            android:label="Add Pet"/>
         <activity android:name=".ViewPetActivity"></activity>
     </application>
 
