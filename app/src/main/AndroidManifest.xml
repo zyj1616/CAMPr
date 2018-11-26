@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.ucsd.eng.campr">
+    package="com.example.a1.campr">
 
     <application
         android:allowBackup="true"
@@ -9,25 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FirebaseUiActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".workmodeActivity" />
+        <activity android:name=".resetActivity" />
         <activity
-            android:name=".ViewMyPets"
-            android:label="@string/title_activity_view_my_pets"
+            android:name=".AdopterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ListerPetList"
-            android:label="Pets I've Added" />
-        <activity android:name=".SwitchActivity" />
-        <activity
-            android:name=".AddPetActivity"
-            android:label="Add Pet"/>
-        <activity android:name=".ViewPetActivity"></activity>
+            android:name=".ListerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewPetsActivity"></activity>
     </application>
 
 </manifest>
