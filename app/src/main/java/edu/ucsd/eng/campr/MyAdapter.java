@@ -32,9 +32,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
 
         public void onClick(View v) {
+            DatabaseInterface db = DatabaseInterface.getInstance();
             TextView textView = v.findViewById(R.id.pet_id);
             String key = textView.getText().toString();
-            Pets temp = ListerPetList.myPets.get(key);
+            //Pets temp = ListerPetList.myPets.get(key);
+            Pets temp = db.getPetByID(key);
             Intent intent = new Intent(v.getContext(), ViewPetActivity.class);
             intent.putExtra("parcel_data", temp);
             v.getContext().startActivity(intent);

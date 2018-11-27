@@ -29,6 +29,7 @@ public class AddPetActivity extends AppCompatActivity {
     protected void listPet(View view) { //save
         EditText temp = findViewById(R.id.editTextPetName);
         String name = temp.getText().toString();
+        DatabaseInterface db = DatabaseInterface.getInstance();
 
         String gender;
         RadioGroup group = findViewById(R.id.radioGroupGender);
@@ -43,7 +44,8 @@ public class AddPetActivity extends AppCompatActivity {
         String info = temp.getText().toString();
 
         ListerPetList.input.add(new Pets(name, gender, info, name+gender+info, pic)); // Add to list for recyclerView
-        ListerPetList.myPets.put(name+gender+info, new Pets(name, gender, info, name+gender+info, pic)); // Add to hashmap
+        //ListerPetList.myPets.put(name+gender+info, new Pets(name, gender, info, name+gender+info, pic)); // Add to hashmap
+        db.addPet(new Pets(name, gender, info, name+gender+info, pic)); // Add to database
         ListerPetList.recyclerView.getAdapter().notifyDataSetChanged(); //Update view
         finish();
     }

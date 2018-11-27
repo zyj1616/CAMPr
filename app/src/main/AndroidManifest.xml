@@ -17,12 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewMyPets"
-            android:label="@string/title_activity_view_my_pets"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ListerPetList"
-            android:label="@string/title_activity_lister_pet_list" />
+            android:label="Your Pets" />
         <activity android:name=".SwitchActivity" />
         <activity android:name=".AddPetActivity" />
         <activity android:name=".ViewPetActivity"></activity>

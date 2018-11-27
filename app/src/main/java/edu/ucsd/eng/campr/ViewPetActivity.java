@@ -11,6 +11,7 @@ public class ViewPetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pet);
+        DatabaseInterface db = DatabaseInterface.getInstance();
 
         Pets pet = getIntent().getParcelableExtra("parcel_data");
         TextView textView = findViewById(R.id.textView);
@@ -20,7 +21,8 @@ public class ViewPetActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView3);
         textView.setText(pet.getInfo());
         ImageView imageView = findViewById(R.id.imageView);
-        pet = ListerPetList.myPets.get(pet.getPetId());
+        //pet = ListerPetList.myPets.get(pet.getPetId());
+        pet = db.getPetByID(pet.getPetId());
         imageView.setImageBitmap(pet.getPetPic());
     }
 }
