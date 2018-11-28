@@ -1,73 +1,51 @@
 package edu.ucsd.eng.campr;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Arrays;
 
 public class User {
-	private String adopterID;
-	private String listerID;
-	private String firstName;
-	private String lastName;
-	private String userName;
+	private String userID;
+    private String DisplayName;
 	private String emailAddress;
 	private String phoneNumber;
 	private String city;
 	private String state;
 	private Pet[] chosenPets;
 	private Pet[] listedPets;
+	private boolean contactInfoSet;
 	
-	public User(String adopterID, String listerID, String firstName, String lastName, String userName,
-			String emailAddress, String phoneNumber, String city, String state, Pet[] chosenPets, Pet[] listedPets, boolean role) {
-		this.adopterID = adopterID;
-		this.listerID = listerID;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userName = userName;
+	public User(String userID, String firstName, String userName,
+                String emailAddress, String phoneNumber, String city, String state, Pet[] chosenPets, Pet[] listedPets, boolean role) {
+		this.userID = userID;
+        this.DisplayName = firstName;
 		this.emailAddress = emailAddress;
 		this.phoneNumber = phoneNumber;
 		this.city = city;
 		this.state = state;
 		this.chosenPets = chosenPets;
 		this.listedPets = listedPets;
+		this.contactInfoSet = true;
 	}
 
-	public String getAdopterID() {
-		return adopterID;
+
+	public User(FirebaseUser user) {
+	    this.userID = user.getUid();
+	    this.DisplayName = user.getDisplayName();
+	    this.emailAddress = user.getEmail();
+	    this.contactInfoSet = false;
+    }
+
+	public String getUserID() {
+		return userID;
 	}
 
-	public void setAdopterID(String adopterID) {
-		this.adopterID = adopterID;
+    public String getDisplayName() {
+		return DisplayName;
 	}
 
-	public String getListerID() {
-		return listerID;
-	}
-
-	public void setListerID(String listerID) {
-		this.listerID = listerID;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setDisplayName(String displayName) {
+		this.DisplayName = displayName;
 	}
 
 	public String getEmailAddress() {
@@ -120,8 +98,7 @@ public class User {
 
     @Override
 	public String toString() {
-		return "User [adopterID=" + adopterID + ", listerID=" + listerID + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", userName=" + userName + ", emailAddress=" + emailAddress + ", phoneNumber="
+		return "User [userID=" + userID + ", DisplayName=" + DisplayName + ", emailAddress=" + emailAddress + ", phoneNumber="
 				+ phoneNumber + ", city=" + city + ", state=" + state + ", chosenPets=" + Arrays.toString(chosenPets)
 				+ ", listedPets=" + Arrays.toString(listedPets) + "]";
 	}
@@ -135,10 +112,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (adopterID == null) {
-			if (other.adopterID != null)
+		if (userID == null) {
+			if (other.userID != null)
 				return false;
-		} else if (!adopterID.equals(other.adopterID))
+		} else if (!userID.equals(other.userID))
 			return false;
 		if (!Arrays.equals(chosenPets, other.chosenPets))
 			return false;
@@ -152,22 +129,12 @@ public class User {
 				return false;
 		} else if (!emailAddress.equals(other.emailAddress))
 			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (DisplayName == null) {
+			if (other.DisplayName != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!DisplayName.equals(other.DisplayName))
 			return false;
 		if (!Arrays.equals(listedPets, other.listedPets))
-			return false;
-		if (listerID == null) {
-			if (other.listerID != null)
-				return false;
-		} else if (!listerID.equals(other.listerID))
 			return false;
 		if (phoneNumber == null) {
 			if (other.phoneNumber != null)
@@ -178,11 +145,6 @@ public class User {
 			if (other.state != null)
 				return false;
 		} else if (!state.equals(other.state))
-			return false;
-		if (userName == null) {
-			if (other.userName != null)
-				return false;
-		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
 	}

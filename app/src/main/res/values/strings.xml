@@ -11,4 +11,5 @@
     <string name="listed_pets">Listed Pets</string>
     <string name="list_new_pet">List new pet</string>
     <string name="view_pet">Pet\'s profile</string>
+    <string name="switch_roles">Switch Roles</string>
 </resources>

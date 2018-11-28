@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class SwitchActivity extends AppCompatActivity {
 
     @Override
@@ -15,6 +19,17 @@ public class SwitchActivity extends AppCompatActivity {
     }
 
     public void setUserRole(View view) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (firebaseUser == null) {
+            Intent goToLoginActivity = new Intent(this, FirebaseUiActivity.class);
+            startActivity(goToLoginActivity);
+
+            // Update database
+            User user = new User(firebaseUser);
+            DatabaseInterface.getInstance().addUser(user);
+        }
+
         Switch s = findViewById(R.id.userTypeSwitch);
         if (s.isChecked()) {
             startActivity(new Intent(this, ListerPetList.class));
