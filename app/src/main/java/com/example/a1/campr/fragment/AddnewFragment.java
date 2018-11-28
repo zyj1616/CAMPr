@@ -19,8 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+
 import com.example.a1.campr.Pets;
 import com.example.a1.campr.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 
@@ -29,6 +32,9 @@ public class AddnewFragment extends Fragment {
     private Bitmap pic;
     private Button listpet;
     private ImageView image;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference petsRef = database.getReference("pets");
 
     @Nullable
     @Override
