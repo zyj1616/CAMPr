@@ -10,7 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.a1.campr.fragment.AddnewFragment;
+import com.example.a1.campr.fragment.AddNewFragment;
+import com.example.a1.campr.fragment.AddNewFragment;
 import com.example.a1.campr.fragment.ApplicationFragment;
 import com.example.a1.campr.fragment.PetsFragment;
 import com.example.a1.campr.fragment.ProfileFragment;
@@ -18,6 +19,7 @@ import com.example.a1.campr.fragment.ProfileFragment;
 
 public class ListerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
                 break;
             case R.id.nav_addnew:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new AddnewFragment()).commit();
+                        new AddNewFragment()).commit();
                 break;
             case R.id.nav_signout:
                 Intent intent = new Intent(ListerActivity.this, LoginActivity.class);

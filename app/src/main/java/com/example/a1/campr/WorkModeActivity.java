@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-public class workmodeActivity extends AppCompatActivity {
+public class WorkModeActivity extends AppCompatActivity {
 
 //    public void getStarted(View view){
 //        Switch userTypeSwitch = (Switch) findViewById(R.id.userTypeSwitch);

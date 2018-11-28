@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.a1.campr.fragment.FavoriteFragment;
 import com.example.a1.campr.fragment.PreferenceFragment;
 import com.example.a1.campr.fragment.ProfileFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
@@ -25,11 +27,16 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
     private ArrayList<String> a1;
     private ArrayAdapter arrayAdapter;
     private DrawerLayout drawer;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adopter);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -122,6 +129,7 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
 //                        new AddnewFragment()).commit();
 //                break;
             case R.id.nav_signout:
+                mFirebaseAuth.signOut();
                 Intent intent = new Intent(AdopterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;

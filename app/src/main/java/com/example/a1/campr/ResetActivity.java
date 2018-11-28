@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class resetActivity extends AppCompatActivity {
+public class ResetActivity extends AppCompatActivity {
     private Button msubmit;
     private TextView mback;
 
@@ -20,7 +20,7 @@ public class resetActivity extends AppCompatActivity {
         msubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(resetActivity.this, LoginActivity.class);
+                Intent intent = new Intent(ResetActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 return;
@@ -32,7 +32,7 @@ public class resetActivity extends AppCompatActivity {
         mback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(resetActivity.this, LoginActivity.class);
+                Intent intent = new Intent(ResetActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
                 return;
