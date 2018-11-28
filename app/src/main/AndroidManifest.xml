@@ -12,17 +12,19 @@
         <activity
             android:name=".ListerPetList"
             android:label="Your Pets"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity android:name=".FirebaseUiActivity" />
         <activity android:name=".SwitchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".AddPetActivity" />
         <activity android:name=".ViewPetActivity" />
-        <activity android:name=".ListerViewApplications"></activity>
+        <activity android:name=".ListerViewApplicationsActivity" />
+        <activity android:name=".ViewUserProfileActivity"></activity>
     </application>
 
 </manifest>

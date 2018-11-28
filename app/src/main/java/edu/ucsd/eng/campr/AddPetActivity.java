@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.IOException;
 
 public class AddPetActivity extends AppCompatActivity {
@@ -30,6 +33,7 @@ public class AddPetActivity extends AppCompatActivity {
         EditText temp = findViewById(R.id.editTextPetName);
         String name = temp.getText().toString();
         DatabaseInterface db = DatabaseInterface.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String gender;
         RadioGroup group = findViewById(R.id.radioGroupGender);
@@ -43,9 +47,9 @@ public class AddPetActivity extends AppCompatActivity {
         temp = findViewById(R.id.editTextPetDescription);
         String info = temp.getText().toString();
 
-        ListerPetList.input.add(new Pets(name, gender, info, name+gender+info, pic)); // Add to list for recyclerView
+        ListerPetList.petsArrayListForRecyclerView.add(new Pets(name, gender, info, name+gender+info, pic, user.getUid())); // Add to list for recyclerView
         //ListerPetList.myPets.put(name+gender+info, new Pets(name, gender, info, name+gender+info, pic)); // Add to hashmap
-        db.addPet(new Pets(name, gender, info, name+gender+info, pic)); // Add to database
+        db.addPet(new Pets(name, gender, info, name+gender+info, pic, user.getUid())); // Add to database
         ListerPetList.recyclerView.getAdapter().notifyDataSetChanged(); //Update view
         finish();
     }

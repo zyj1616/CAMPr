@@ -12,19 +12,22 @@ public class Pets implements Parcelable {
     private String info;
     private String petId;
     private Bitmap petPic;
+    private String ListerID;
 
-    public Pets(String mName, String mGender, String mInfo, String mId, Bitmap mPic) {
+    public Pets(String mName, String mGender, String mInfo, String mId, Bitmap mPic, String mListerID) {
         name = mName;
         gender = mGender;
         info = mInfo;
         petId = mId;
         petPic = mPic;
+        ListerID = mListerID;
     }
     public Pets(Parcel in) {
         name = in.readString();
         gender = in.readString();
         info = in.readString();
         petId = in.readString();
+        ListerID = in.readString();
     }
 
     @Override
@@ -64,6 +67,10 @@ public class Pets implements Parcelable {
 
     public String getPetId() {
         return petId;
+    }
+
+    public String getListerID() {
+        return ListerID;
     }
 
     public Bitmap getPetPic() { return  petPic; }

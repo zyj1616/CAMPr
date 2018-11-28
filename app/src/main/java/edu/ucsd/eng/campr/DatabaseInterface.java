@@ -50,5 +50,8 @@ public final class DatabaseInterface {
         return user.getUserID();
     }
 
+    public User getUserById(String id) {
+        return  users.get(id);
+    }
     // Todo: Save data when app closes
 }

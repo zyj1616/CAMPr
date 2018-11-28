@@ -33,7 +33,7 @@ public class ViewPetActivity extends AppCompatActivity {
     protected void deletePet(View view) {
         DatabaseInterface db = DatabaseInterface.getInstance();
         if (db.deletePet(pet.getPetId())) {
-            ListerPetList.input.remove(pet);
+            ListerPetList.petsArrayListForRecyclerView.remove(pet);
             ListerPetList.recyclerView.getAdapter().notifyDataSetChanged();
             startActivity(new Intent(this, ListerPetList.class));;
         }

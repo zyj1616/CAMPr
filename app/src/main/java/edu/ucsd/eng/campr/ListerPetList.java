@@ -2,18 +2,11 @@ package edu.ucsd.eng.campr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +18,7 @@ public class ListerPetList extends AppCompatActivity {
     public static RecyclerView recyclerView;
     public RecyclerView.Adapter mAdapter;
     public RecyclerView.LayoutManager layoutManager;
-    public static List<Pets> input = new ArrayList<>();
+    public static List<Pets> petsArrayListForRecyclerView = new ArrayList<>();
     public static HashMap<String, Pets> myPets = new HashMap<>();
 
     /*private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -66,7 +59,7 @@ public class ListerPetList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyAdapter(input);
+        mAdapter = new ViewPetsAdapter(petsArrayListForRecyclerView);
         recyclerView.setAdapter(mAdapter);
     }
 

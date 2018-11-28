@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class ViewPetsAdapter extends RecyclerView.Adapter<ViewPetsAdapter.ViewHolder> {
     private List<Pets> values;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -53,12 +53,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }*/
 
-    public MyAdapter(List<Pets> myDataset) {
+    public ViewPetsAdapter(List<Pets> myDataset) {
         values = myDataset;
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewPetsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.row_layout, parent, false);
         ViewHolder vh = new ViewHolder(v);
