@@ -1,8 +1,11 @@
 package com.example.a1.campr;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,9 +35,20 @@ public class ViewPetActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private DatabaseReference petRef;
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pet);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -51,17 +65,17 @@ public class ViewPetActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Pet pet = snapshot.getValue(Pet.class);
-                TextView textView = findViewById(R.id.textView);
-                textView.setText(pet.getName());
-                textView = findViewById(R.id.textView2);
-                textView.setText(pet.getGender());
-                textView = findViewById(R.id.textView3);
-                textView.setText(pet.getInfo());
-                ImageView imageView = findViewById(R.id.imageView);
+                TextView nameTextView = findViewById(R.id.name);
+                nameTextView.setText(pet.getName());
+                TextView genderTextView = findViewById(R.id.gender);
+                genderTextView.setText(pet.getGender());
+                TextView descriptionTextView = findViewById(R.id.description);
+                descriptionTextView.setText(pet.getInfo());
+                ImageView picImageView = findViewById(R.id.pic);
 
-                Glide.with(textView.getContext())
+                Glide.with(picImageView.getContext())
                         .load(pet.getPicUrl())
-                        .into(imageView);
+                        .into(picImageView);
             }
 
             @Override
@@ -78,6 +92,7 @@ public class ViewPetActivity extends AppCompatActivity {
                 snapshot.getRef().removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
                         finish();
                     }
                 });
