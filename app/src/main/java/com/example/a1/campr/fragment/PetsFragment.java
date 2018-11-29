@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -73,11 +74,11 @@ public class PetsFragment extends Fragment {
             }
         };
 
-        DatabaseReference petsRef = mDatabaseRef.child("pets").child(mFirebaseUser.getUid());
+        Query petQuery = mDatabaseRef.child("pets").orderByChild("listerId").equalTo(mFirebaseUser.getUid());
 
         FirebaseRecyclerOptions<Pet> options =
                 new FirebaseRecyclerOptions.Builder<Pet>()
-                        .setQuery(petsRef, parser)
+                        .setQuery(petQuery, parser)
                         .build();
 
         mRecyclerView = getActivity().findViewById(R.id.my_recycler_view);

@@ -19,6 +19,7 @@
         app:cardCornerRadius="4dp"
         android:elevation="2dp"
         android:id="@+id/cardView">
+
         <LinearLayout
             android:layout_gravity="center"
             android:layout_width="300dp"
@@ -27,19 +28,46 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:id="@+id/image"
                 android:scaleType="centerCrop"
                 />
-            <TextView
-                android:id="@+id/hello"
-                android:textSize="30sp"
-                android:paddingLeft="20sp"
-                android:textColor="@android:color/black"
-                android:gravity="center|left"
-                tools:text="hello"
+            <LinearLayout
+                android:paddingTop="10dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:textSize="30sp"
+                    tools:text="Name"
+                    android:paddingLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+
+                <TextView
+                    android:id="@+id/gender"
+                    android:textSize="20sp"
+                    tools:text="Gender"
+                    android:paddingLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/description"
+                android:textSize="15sp"
+                android:paddingLeft="20dp"
+                android:layout_marginTop="15dp"
+                tools:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

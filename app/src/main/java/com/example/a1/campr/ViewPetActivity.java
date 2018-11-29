@@ -59,7 +59,7 @@ public class ViewPetActivity extends AppCompatActivity {
 
         String pet_id = getIntent().getStringExtra("pet_id");
 
-        petRef = mDatabaseRef.child("pets").child(mFirebaseUser.getUid()).child(pet_id);
+        petRef = mDatabaseRef.child("pets").child(pet_id);
 
         petRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -89,20 +89,14 @@ public class ViewPetActivity extends AppCompatActivity {
         petRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                snapshot.getRef().removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        finish();
-                    }
-                });
+                snapshot.getRef().removeValue();
+                finish();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
                 // do nothing
             }
-
         });
 
         finish();

@@ -6,15 +6,17 @@ public class Pet {
     private String info;
     private String id;
     private String picUrl;
+    private String listerId;
 
     public Pet() {}
 
-    public Pet(String name, String gender, String info, String id, String picUrl) {
+    public Pet(String name, String gender, String info, String id, String picUrl, String listerId) {
         this.name = name;
         this.gender = gender;
         this.info = info;
         this.id = id;
         this.picUrl = picUrl;
+        this.listerId = listerId;
     }
 
     public String getName() {
@@ -41,4 +43,9 @@ public class Pet {
         return picUrl;
     }
     public void setPicUrl(String picUrl) { this.picUrl = picUrl; }
+
+    public String getListerId() {
+        return listerId;
+    }
+    public void setListerId(String listerId) { this.listerId = listerId; }
 }

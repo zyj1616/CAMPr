@@ -89,7 +89,7 @@ public class AddNewFragment extends Fragment {
 
                 // Get the new pet's key in the database for storing the image
 
-                DatabaseReference imageUrlRef = mDatabaseRef.child("pets").child(mFirebaseUser.getUid());
+                DatabaseReference imageUrlRef = mDatabaseRef.child("pets");
                 String key = imageUrlRef.push().getKey();
 
                 // Upload the pet image to Firebase Cloud Storage and retrieve the link
@@ -111,14 +111,8 @@ public class AddNewFragment extends Fragment {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        imageUrlRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString()))
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                                new AddNewFragment()).commit();
-                                    }
-                                });
+                        imageUrlRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid()));
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
                     }
                 });
             }
@@ -140,7 +134,6 @@ public class AddNewFragment extends Fragment {
 
                         Bitmap croppedBitmap;
                         if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
-
                             croppedBitmap = Bitmap.createBitmap(
                                     imageBitmap,
                                     imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
@@ -148,9 +141,7 @@ public class AddNewFragment extends Fragment {
                                     imageBitmap.getHeight(),
                                     imageBitmap.getHeight()
                             );
-
                         }else{
-
                             croppedBitmap = Bitmap.createBitmap(
                                     imageBitmap,
                                     0,
