@@ -15,15 +15,22 @@ import com.example.a1.campr.fragment.AddNewFragment;
 import com.example.a1.campr.fragment.ApplicationFragment;
 import com.example.a1.campr.fragment.PetsFragment;
 import com.example.a1.campr.fragment.ProfileFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class ListerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lister);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,6 +70,7 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
                         new AddNewFragment()).commit();
                 break;
             case R.id.nav_signout:
+                mFirebaseAuth.signOut();
                 Intent intent = new Intent(ListerActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
