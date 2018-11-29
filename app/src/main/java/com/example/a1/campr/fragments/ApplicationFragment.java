@@ -1,4 +1,4 @@
-package com.example.a1.campr.fragment;
+package com.example.a1.campr.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

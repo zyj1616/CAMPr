@@ -1,5 +1,6 @@
 package com.example.a1.campr;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,12 +10,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
-import com.example.a1.campr.fragment.AddNewFragment;
-import com.example.a1.campr.fragment.AddNewFragment;
-import com.example.a1.campr.fragment.ApplicationFragment;
-import com.example.a1.campr.fragment.PetsFragment;
-import com.example.a1.campr.fragment.ProfileFragment;
+import com.example.a1.campr.fragments.AddNewFragment;
+import com.example.a1.campr.fragments.ApplicationFragment;
+import com.example.a1.campr.fragments.EditAdopterProfileFragment;
+import com.example.a1.campr.fragments.EditListerProfileFragment;
+import com.example.a1.campr.fragments.PetsFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,29 +47,36 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
 
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ProfileFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_profile);
+                    new PetsFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_pets);
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                        new EditListerProfileFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_profile);
                 break;
             case R.id.nav_application:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ApplicationFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_application);
                 break;
             case R.id.nav_pets:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PetsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_pets);
                 break;
             case R.id.nav_addnew:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new AddNewFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_addnew);
                 break;
             case R.id.nav_signout:
                 mFirebaseAuth.signOut();

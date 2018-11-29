@@ -1,4 +1,4 @@
-package com.example.a1.campr.fragment;
+package com.example.a1.campr.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,15 +13,12 @@ import android.widget.TextView;
 import com.example.a1.campr.AdopterActivity;
 import com.example.a1.campr.R;
 
-import org.w3c.dom.Text;
-
-public class ProfileFragment extends Fragment {
+public class FavoriteFragment extends Fragment {
     private TextView mback;
     private View view;
-    @Nullable
-    @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile,container,false);
+        return inflater.inflate(R.layout.fragment_favorite,container,false);
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {

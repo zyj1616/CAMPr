@@ -1,6 +1,7 @@
-package com.example.a1.campr.fragment;
+package com.example.a1.campr.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,11 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.a1.campr.Pet;
+import com.example.a1.campr.models.Pet;
 import com.example.a1.campr.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -63,8 +65,6 @@ public class AddNewFragment extends Fragment {
         FragmentActivity activity = getActivity();
         activity.findViewById(R.id.name).requestFocus();
 
-        DatabaseReference petsRef = mDatabase.getReference("pets");
-
         ImageView image = activity.findViewById(R.id.image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +79,9 @@ public class AddNewFragment extends Fragment {
         addPetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getView().getRootView().getWindowToken(), 0);
+
                 FragmentActivity activity = getActivity();
                 EditText name = activity.findViewById(R.id.name);
                 String nameStr = name.getText().toString();
@@ -89,8 +92,8 @@ public class AddNewFragment extends Fragment {
 
                 // Get the new pet's key in the database for storing the image
 
-                DatabaseReference imageUrlRef = mDatabaseRef.child("pets");
-                String key = imageUrlRef.push().getKey();
+                DatabaseReference petsRef = mDatabaseRef.child("pets");
+                String key = petsRef.push().getKey();
 
                 // Upload the pet image to Firebase Cloud Storage and retrieve the link
 
@@ -99,19 +102,19 @@ public class AddNewFragment extends Fragment {
                         .child(key)
                         .child(imageUri.getLastPathSegment());
 
-                putImageInStorage(imageRef, imageUri, imageUrlRef, nameStr, genderStr, infoStr, key);
+                putImageInStorage(imageRef, imageUri, petsRef, nameStr, genderStr, infoStr, key);
             }
         });
     }
 
-    private void putImageInStorage(final StorageReference storageReference, final Uri uri, final DatabaseReference imageUrlRef, final String name, final String gender, final String info, final String key) {
+    private void putImageInStorage(final StorageReference storageReference, final Uri uri, final DatabaseReference petsRef, final String name, final String gender, final String info, final String key) {
         storageReference.putBytes(baos.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        imageUrlRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid()));
+                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid()));
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
                     }
                 });

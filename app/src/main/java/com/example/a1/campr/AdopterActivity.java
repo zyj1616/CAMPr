@@ -2,33 +2,23 @@ package com.example.a1.campr;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Movie;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.solver.widgets.Snapshot;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.a1.campr.fragment.FavoriteFragment;
-import com.example.a1.campr.fragment.PreferenceFragment;
-import com.example.a1.campr.fragment.ProfileFragment;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.a1.campr.fragments.EditAdopterProfileFragment;
+import com.example.a1.campr.fragments.FavoriteFragment;
+import com.example.a1.campr.fragments.PreferenceFragment;
+import com.example.a1.campr.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,12 +30,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.huxq17.swipecardsview.BaseCardAdapter;
 import com.huxq17.swipecardsview.SwipeCardsView;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AdopterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -70,6 +57,21 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
+//        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.getValue(Adopter.class) == null) {
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                            new PreferenceFragment()).commit();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // do nothing
+//            }
+//        });
+
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -80,18 +82,6 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-//        if(savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                    new ProfileFragment()).commit();
-//            navigationView.setCheckedItem(R.id.nav_profile);
-//        }
-
-        petList = new ArrayList<Pet>();
-        Pet a = new Pet("haha", "haha", "haha", "haha", "https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/imtecH3JobOdGcltiV8onYabqw03%2F-LSSkfoI346_PG8Gy_oQ%2F345?alt=media&token=7c0fafb8-7b3a-4883-9b27-255f9ccb7706", "haha");
-        Pet b = new Pet("haha", "haha", "haha", "haha", "https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/J6PqPGpcvMMFq8HHc7pAhX7ub9F2%2F-LSSkxvCohzIvuWlqeZf%2F342?alt=media&token=a6252e2f-39dd-41fb-bc95-390475946354", "haha");
-        petList.add(a);
-        petList.add(b);
 
         // New method
         swipeCardsView = findViewById(R.id.swipe_cards_view);
@@ -157,21 +147,25 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         View view = findViewById(R.id.swipe_cards_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ProfileFragment()).commit();
+                        new EditAdopterProfileFragment()).commit();
                 view.setVisibility(View.GONE);
+                navigationView.setCheckedItem(R.id.nav_profile);
                 break;
             case R.id.nav_preference:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new PreferenceFragment()).commit();
                 view.setVisibility(View.GONE);
+                navigationView.setCheckedItem(R.id.nav_preference);
                 break;
             case R.id.nav_favorite:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FavoriteFragment()).commit();
                 view.setVisibility(View.GONE);
+                navigationView.setCheckedItem(R.id.nav_favorite);
                 break;
             case R.id.nav_signout:
                 mFirebaseAuth.signOut();

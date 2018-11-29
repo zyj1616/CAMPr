@@ -1,4 +1,4 @@
-package com.example.a1.campr;
+package com.example.a1.campr.models;
 
 public class Pet {
     private String name;
