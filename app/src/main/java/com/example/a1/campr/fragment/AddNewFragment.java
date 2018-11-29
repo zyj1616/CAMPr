@@ -1,7 +1,6 @@
 package com.example.a1.campr.fragment;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,8 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,16 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-
-import com.example.a1.campr.MainActivity;
 import com.example.a1.campr.Pet;
-import com.example.a1.campr.Pets;
 import com.example.a1.campr.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,7 +41,7 @@ public class AddNewFragment extends Fragment {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private Uri imageUri;
-    private Bitmap imageBitmap;
+    private ByteArrayOutputStream baos;
 
     @Nullable
     @Override
@@ -110,51 +100,27 @@ public class AddNewFragment extends Fragment {
                         .child(imageUri.getLastPathSegment());
 
                 putImageInStorage(imageRef, imageUri, imageUrlRef, nameStr, genderStr, infoStr, key);
-
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                byte[] imageBytes = baos.toByteArray();
-//                UploadTask uploadTask = imageRef.putBytes(imageBytes);
-//                uploadTask.addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception exception) {
-//                        // Handle unsuccessful uploads
-//                    }
-//                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                    @Override
-//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                        // ...
-//                    }
-//                });
-
-//                PetsFragment.input.add(new Pets(nameStr, genderStr, infoStr, nameStr + genderStr + infoStr, pic));
-//                PetsFragment.myPets.put(nameStr + genderStr + infoStr, new Pets(nameStr, genderStr, infoStr, nameStr + genderStr + infoStr, pic));
-//                PetsFragment.recyclerView.getAdapter().notifyDataSetChanged();
-//
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new PetsFragment()).commit();
-
-//                getActivity().finish();
-//                FragmentTransaction fr = getFragmentManager().beginTransaction();
-//                fr.replace(R.id.fragment_container, new );
-
             }
         });
     }
 
     private void putImageInStorage(final StorageReference storageReference, final Uri uri, final DatabaseReference imageUrlRef, final String name, final String gender, final String info, final String key) {
-        storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        storageReference.putBytes(baos.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()) {
-                    imageUrlRef.child(key).setValue(new Pet(name, gender, info, key, storageReference.getDownloadUrl().toString()));
-                    Log.w("TAG", "Image upload task was not successful.",
-                            task.getException());
-                } else {
-                    Log.w("TAG", "Image upload task was not successful.",
-                            task.getException());
-                }
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri downloadPhotoUrl) {
+                        imageUrlRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString()))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                                new AddNewFragment()).commit();
+                                    }
+                                });
+                    }
+                });
             }
         });
     }
@@ -167,7 +133,34 @@ public class AddNewFragment extends Fragment {
                 case RESULT_REQUEST:
                     imageUri = data.getData();
                     try {
-                        imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                        baos = new ByteArrayOutputStream();
+                        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+
+                        // Crop the bitmap
+
+                        Bitmap croppedBitmap;
+                        if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
+
+                            croppedBitmap = Bitmap.createBitmap(
+                                    imageBitmap,
+                                    imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
+                                    0,
+                                    imageBitmap.getHeight(),
+                                    imageBitmap.getHeight()
+                            );
+
+                        }else{
+
+                            croppedBitmap = Bitmap.createBitmap(
+                                    imageBitmap,
+                                    0,
+                                    imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
+                                    imageBitmap.getWidth(),
+                                    imageBitmap.getWidth()
+                            );
+                        }
+
+                        croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         ImageView imageView = getActivity().findViewById(R.id.image);
                         imageView.setImageBitmap(imageBitmap);
                     } catch (IOException e) {

@@ -1,9 +1,5 @@
 package com.example.a1.campr;
 
-import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class Pet {
     private String name;
     private String gender;

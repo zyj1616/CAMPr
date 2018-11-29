@@ -74,7 +74,7 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
     public void onBackPressed(){
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             super.onBackPressed();
         }
     }
