@@ -16,8 +16,6 @@ import com.example.a1.campr.AdopterActivity;
 import com.example.a1.campr.R;
 
 public class PreferenceFragment extends Fragment {
-    private TextView mback;
-    private View view;
     Spinner spinner_breed;
     Spinner spinner_species;
     Spinner spinner_age;
@@ -67,15 +65,5 @@ public class PreferenceFragment extends Fragment {
         adapter_adoption_fee = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.adoption_fee,android.R.layout.simple_spinner_item);
         adapter_adoption_fee.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_adoption_fee.setAdapter(adapter_adoption_fee);
-
-        mback = getActivity().findViewById(R.id.back);
-        view = getActivity().findViewById(R.id.frame);
-        mback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdopterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
