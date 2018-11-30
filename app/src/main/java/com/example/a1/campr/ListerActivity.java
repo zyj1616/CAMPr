@@ -54,8 +54,8 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         NavigationView navigationView = findViewById(R.id.nav_view);
         switch (item.getItemId()) {
             case R.id.nav_profile:

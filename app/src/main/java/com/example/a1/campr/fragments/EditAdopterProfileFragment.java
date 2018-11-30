@@ -38,6 +38,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditAdopterProfileFragment extends Fragment {
 
@@ -182,7 +184,7 @@ public class EditAdopterProfileFragment extends Fragment {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        mDatabase.getReference("adopters").child(key).setValue(new Adopter(firstname, lastname, email, phoneNumber, city, state, downloadPhotoUrl.toString()));
+                        updateAdopter(firstname, lastname, email, phoneNumber, city, state, downloadPhotoUrl.toString(), key);
                     }
                 });
             }
@@ -190,7 +192,17 @@ public class EditAdopterProfileFragment extends Fragment {
     }
 
     private void updateAdopter(final String firstname, final String lastname, final String email, final String phoneNumber, final String city, final String state, final String picUrl, final String key) {
-        mDatabase.getReference("adopters").child(key).setValue(new Adopter(firstname, lastname, email, phoneNumber, city, state, picUrl));
+        Map<String, Object> updatedPart = new HashMap<>();
+
+        updatedPart.put("firstname", firstname);
+        updatedPart.put("lastname", lastname);
+        updatedPart.put("email", email);
+        updatedPart.put("phoneNumber", phoneNumber);
+        updatedPart.put("city", city);
+        updatedPart.put("state", city);
+        updatedPart.put("picUrl", picUrl);
+
+        mDatabase.getReference("adopters").child(key).updateChildren(updatedPart);
     }
 
     @Override

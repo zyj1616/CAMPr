@@ -1,6 +1,7 @@
 package com.example.a1.campr.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Adopter {
     private String id;
@@ -11,7 +12,7 @@ public class Adopter {
     private String city;
     private String state;
     private String picUrl;
-    private ArrayList<String> chosenPets;
+    private HashMap<String, Boolean> chosenPets;
 
     public Adopter() {}
 
@@ -89,12 +90,12 @@ public class Adopter {
         this.picUrl = picUrl;
     }
 
-
-    public ArrayList<String> getChosenPets() {
+    public HashMap<String, Boolean> getChosenPets() {
         return chosenPets;
     }
 
-    public void setChosenPets(ArrayList<String> chosenPets) {
+    public void setChosenPets(HashMap<String, Boolean> chosenPets) {
         this.chosenPets = chosenPets;
     }
+
 }

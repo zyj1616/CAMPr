@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,6 +33,7 @@ import com.huxq17.swipecardsview.BaseCardAdapter;
 import com.huxq17.swipecardsview.SwipeCardsView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AdopterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +44,7 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
     private DatabaseReference mDatabaseRef;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
-    private ArrayList<Pet> petList;
+    private ArrayList<Pet> list;
     private SwipeCardsView swipeCardsView;
 
     @Override
@@ -83,19 +85,49 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // New method
+        // Set up swipe cards
         swipeCardsView = findViewById(R.id.swipe_cards_view);
         swipeCardsView.retainLastCard(false);
         swipeCardsView.enableSwipe(true);
 
-        DatabaseReference petsRef = mDatabaseRef.child("pets");
+        // Add litener
+        swipeCardsView.setCardsSlideListener(new SwipeCardsView.CardsSlideListener() {
+            @Override
+            public void onShow(int index) {
+                // TODO
+            }
 
-        petsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCardVanish(int index, SwipeCardsView.SlideType type) {
+                Pet targetPet = list.get(index);
+                switch (type){
+                    case LEFT:
+                        mDatabaseRef.child("pets").child(targetPet.getId()).child("impossibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
+                        break;
+                    case RIGHT:
+                        mDatabaseRef.child("pets").child(targetPet.getId()).child("possibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
+                        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(targetPet.getId()).setValue(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onItemClick(View cardImageView, int index) {
+                // TODO
+            }
+        });
+
+        Query initialQuery = mDatabaseRef.child("pets")
+                .orderByChild("possibleAdopters/" + mFirebaseUser.getUid()).equalTo(null);
+
+        initialQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                ArrayList<Pet> list = new ArrayList<>();
+                list = new ArrayList<>();
                 for (DataSnapshot petSnapshot: snapshot.getChildren()) {
-                    list.add(petSnapshot.getValue(Pet.class));
+                    HashMap<String, Boolean> impossibleAdopters = petSnapshot.getValue(Pet.class).getImpossibleAdopters();
+                    if (impossibleAdopters == null || !impossibleAdopters.containsKey(mFirebaseUser.getUid()))
+                        list.add(petSnapshot.getValue(Pet.class));
                 }
 
                 PetAdapter petAdapter = new PetAdapter(list, AdopterActivity.this);

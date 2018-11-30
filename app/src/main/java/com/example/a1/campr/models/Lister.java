@@ -1,6 +1,7 @@
 package com.example.a1.campr.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lister {
     private String id;
@@ -11,8 +12,6 @@ public class Lister {
     private String city;
     private String state;
     private String picUrl;
-    private ArrayList<String> listedPets;
-
     public Lister() {}
 
     public Lister(String firstname, String lastname, String email, String phoneNumber, String city, String state, String picUrl) {
@@ -89,11 +88,9 @@ public class Lister {
         this.picUrl = picUrl;
     }
 
-    public ArrayList<String> getListedPets() {
-        return listedPets;
-    }
-
-    public void setListedPets(ArrayList<String> listedPets) {
+    public void setListedPets(HashMap<String, Boolean> listedPets) {
         this.listedPets = listedPets;
     }
+
+    private HashMap<String, Boolean> listedPets;
 }
