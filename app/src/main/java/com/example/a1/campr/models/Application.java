@@ -6,6 +6,15 @@ public class Application {
     private String adopterId;
     private String petId;
     private boolean approval;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public boolean isCurrentContact() {
         return currentContact;
