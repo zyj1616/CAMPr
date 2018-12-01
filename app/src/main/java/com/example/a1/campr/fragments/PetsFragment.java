@@ -29,7 +29,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class PetsFragment extends Fragment {
+public class    PetsFragment extends Fragment {
     public RecyclerView mRecyclerView;
     public LinearLayoutManager mLinearLayoutManager;
     private FirebaseDatabase mDatabase;
