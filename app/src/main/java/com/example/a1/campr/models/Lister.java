@@ -12,6 +12,7 @@ public class Lister {
     private String city;
     private String state;
     private String picUrl;
+
     public Lister() {}
 
     public Lister(String firstname, String lastname, String email, String phoneNumber, String city, String state, String picUrl) {

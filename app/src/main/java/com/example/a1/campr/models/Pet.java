@@ -4,27 +4,116 @@ import android.text.BoringLayout;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Pet {
+    private List<String> feeRanges;
     private String name;
     private String gender;
     private String info;
     private String id;
     private String picUrl;
     private String listerId;
+    private String species;
+    private String breed;
+    private String age;
+    private String color;
+    private String size;
+    private Integer fee;
+    private String feeRange;
     private HashMap<String, Boolean> possibleAdopters;
     private HashMap<String, Boolean> impossibleAdopters;
-
+    private HashMap<String,Boolean> applications;
     public Pet() {}
-
-    public Pet(String name, String gender, String info, String id, String picUrl, String listerId) {
+    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species,String breed,
+               String age,String color,String size,Integer fee) {
         this.name = name;
         this.gender = gender;
         this.info = info;
         this.id = id;
         this.picUrl = picUrl;
         this.listerId = listerId;
+        this.species = species;
+        this.breed = breed;
+        this.age = age;
+        this.color = color;
+        this.size = size;
+        this.fee = fee;
+        if(0  <= fee && fee < 50){
+            this.feeRange = "below 50";
+        }
+        else if(fee >= 50 && fee <100){
+            this.feeRange = "50 to 100";
+        }
+        else{
+            this.feeRange = "above 100";
+        }
+    }
+
+    public HashMap<String, Boolean> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(HashMap<String, Boolean> applications) {
+        this.applications = applications;
+    }
+    
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public Integer getFee() {
+        return fee;
+    }
+
+    public void setFee(Integer fee) {
+        this.fee = fee;
+    }
+
+    public String getFeeRange() {
+        return feeRange;
+    }
+
+    public void setFeeRange(String feeRange) {
+        this.feeRange = feeRange;
     }
 
     public String getName() {
