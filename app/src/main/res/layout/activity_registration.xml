@@ -17,31 +17,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center" >
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="250dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:background="@drawable/bg_edittext"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/password"
-                android:layout_marginTop="20dp"
-                android:layout_width="250dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Password"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:background="@drawable/bg_edittext"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/sign_up_button"
-                android:layout_marginTop="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sign Up" />
+                android:layout_marginTop="50dp"
+                android:text="Sign Up"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
         </LinearLayout>
 

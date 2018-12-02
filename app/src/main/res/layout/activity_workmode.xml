@@ -64,7 +64,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="129dp"
+        android:background="#C7CBD5"
         android:onClick="getStarted"
-        android:text="Get Started" />
+        android:text="Get Started"
+        android:textSize="18sp" />
 
 </RelativeLayout>

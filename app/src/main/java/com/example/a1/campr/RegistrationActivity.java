@@ -20,6 +20,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected EditText emailEditText;
     protected Button signUpButton;
     private FirebaseAuth mFirebaseAuth;
+    protected Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,16 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordEditText = (EditText)findViewById(R.id.password);
         emailEditText = (EditText)findViewById(R.id.email);
         signUpButton = (Button)findViewById(R.id.sign_up_button);
+        backButton = (Button)findViewById(R.id.back_button);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegistrationActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
