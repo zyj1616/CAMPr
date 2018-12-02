@@ -6,12 +6,15 @@
 
     <string name="pet_name">Enter pet\'s name</string>
     <string name="pet_gender">Enter pet\'s gender</string>
+    <string name="pet_age">Enter pet\'s age</string>
+    <string name="pet_adoption_fee">Enter pet\'s adoption fee</string>
     <string name="pet_info">Enter brief description</string>
     <string name="listed_pets">Listed Pets</string>
     <string name="list_new_pet">List new pet</string>
     <string name="view_pet">Pet\'s profile</string>
 
     <string-array name="species">
+        <item>Any</item>
         <item>Dog</item>
         <item>Cat</item>
         <item>Bird</item>
@@ -19,16 +22,14 @@
         <item>Other</item>
     </string-array>
 
-    <string-array name="breeds">
-        <item>Retrievers (Labrador)</item>
-        <item>German Shepherd Dogs	</item>
-        <item>Retrievers (Golden)</item>
-        <item>French Bulldogs</item>
-        <item>Beagles</item>
-        <item>Others</item>
+    <string-array name="genders">
+        <item>Any</item>
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 
     <string-array name="age">
+        <item>Any</item>
         <item>Below 3 months</item>
         <item>3 months to 1 year</item>
         <item>1 year to 3 years</item>
@@ -36,6 +37,7 @@
     </string-array>
 
     <string-array name="color">
+        <item>Any</item>
         <item>Black</item>
         <item>White</item>
         <item>Brown</item>
@@ -44,12 +46,14 @@
     </string-array>
 
     <string-array name="size">
+        <item>Any</item>
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>
     </string-array>
 
     <string-array name="adoption_fee">
+        <item>Any</item>
         <item>Below $50</item>
         <item>$50 to $100</item>
         <item>Above $100</item>

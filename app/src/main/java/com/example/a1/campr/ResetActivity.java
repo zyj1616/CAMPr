@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class ResetActivity extends AppCompatActivity {
     private Button msubmit;
-    private TextView mback;
+    private Button mback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +22,16 @@ public class ResetActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ResetActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
-                return;
             }
         });
 
 
-        mback = (TextView) findViewById(R.id.back);
+        mback = (Button) findViewById(R.id.back);
         mback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ResetActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish();
-                return;
             }
         });
 
