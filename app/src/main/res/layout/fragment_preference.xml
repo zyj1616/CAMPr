@@ -1,174 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/species"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginTop="98dp"
-        android:text="Species"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_species"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="112dp"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/breed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginTop="158dp"
-        android:text="Breed"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_breed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="172dp"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginTop="218dp"
-        android:text="Age"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_age"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="232dp"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginTop="278dp"
-        android:text="Color"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="292dp"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="255dp"
-        android:layout_marginRight="255dp"
-        android:layout_marginTop="338dp"
-        android:text="Size"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="352dp"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/adoption_fee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="215dp"
-        android:layout_marginRight="215dp"
-        android:layout_marginTop="398dp"
-        android:text="Adoption Fee"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
-
-    <Spinner
-        android:id="@+id/spinner_adoption_fee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="412dp"
-        app:fontFamily="@font/andika" />
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="35dp"
         android:text="Please edit your preference here"
         android:textSize="24sp"
         app:fontFamily="@font/andika" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/species"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Species"
+            android:textSize="24sp"
+            app:fontFamily="@font/andika"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_species"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika"
+            android:layout_marginRight="100dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textSize="24sp"
+            app:fontFamily="@font/andika"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:textSize="24sp"
+            app:fontFamily="@font/andika"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_age"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            app:fontFamily="@font/andika" />
+
+        <Spinner
+            android:id="@+id/spinner_color"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            app:fontFamily="@font/andika" />
+
+        <Spinner
+            android:id="@+id/spinner_size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/adoption_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adoption Fee"
+            android:textSize="24sp"
+            android:layout_weight="1"
+            android:layout_marginLeft="70dp"
+            app:fontFamily="@font/andika" />
+
+        <Spinner
+            android:id="@+id/spinner_adoption_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="100dp"
+            android:layout_weight="1"
+            app:fontFamily="@font/andika" />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="98dp"
+        android:layout_marginTop="20dp"
         android:text="Save" />
 
 
-</RelativeLayout>
+
+</LinearLayout>

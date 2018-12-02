@@ -33,15 +33,6 @@
                 <!--android:background="@android:color/white"-->
                 <!--app:rotation_degrees="15.5" />-->
 
-            <com.huxq17.swipecardsview.SwipeCardsView
-                android:id="@+id/swipe_cards_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#f3f3f3"
-                card:alphaOffsetStep="40"
-                card:scaleOffsetStep="0.08"
-                card:yOffsetStep="20dp" />
-
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
@@ -58,9 +49,6 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu_adopter"/>
-
-
-
 
 </android.support.v4.widget.DrawerLayout>
 

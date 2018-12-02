@@ -13,16 +13,7 @@ public class Adopter {
     private String state;
     private String picUrl;
     private HashMap<String, Boolean> chosenPets;
-    private HashMap<String,String> preferences;
     private HashMap<String, Boolean> applications;
-
-    public HashMap<String, String> getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(HashMap<String, String> preferences) {
-        this.preferences = preferences;
-    }
 
     public HashMap<String, Boolean> getApplications() {
         return applications;
