@@ -198,7 +198,6 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:background="#B0E0E6"/>
 
-
         </LinearLayout>
 
     </ScrollView>
