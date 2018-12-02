@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.example.a1.campr.models.Pet;
 import com.example.a1.campr.R;
@@ -45,10 +47,21 @@ public class AddNewFragment extends Fragment {
     private Uri imageUri;
     private ByteArrayOutputStream baos;
 
+    Spinner spinner_gender;
+    Spinner spinner_species;
+    Spinner spinner_age;
+    Spinner spinner_color;
+    Spinner spinner_size;
+    ArrayAdapter<CharSequence> adapter_species;
+    ArrayAdapter<CharSequence> adapter_gender;
+    ArrayAdapter<CharSequence> adapter_age;
+    ArrayAdapter<CharSequence> adapter_color;
+    ArrayAdapter<CharSequence> adapter_size;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_addnew,container,false);
+        return inflater.inflate(R.layout.fragment_add_new_pet,container,false);
 //        View view = inflater.inflate(this,)
     }
 
@@ -61,6 +74,31 @@ public class AddNewFragment extends Fragment {
         mDatabaseRef = mDatabase.getReference();
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference();
+
+        spinner_species = (Spinner) getActivity().findViewById(R.id.spinner_species);
+        adapter_species = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.species,R.layout.my_spinner);
+        adapter_species.setDropDownViewResource(R.layout.my_spinner);
+        spinner_species.setAdapter(adapter_species);
+
+        spinner_gender = (Spinner) getActivity().findViewById(R.id.spinner_gender);
+        adapter_gender = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.genders,R.layout.my_spinner);
+        adapter_gender.setDropDownViewResource(R.layout.my_spinner);
+        spinner_gender.setAdapter(adapter_gender);
+
+        spinner_age = (Spinner) getActivity().findViewById(R.id.spinner_age);
+        adapter_age = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.age,R.layout.my_spinner);
+        adapter_age.setDropDownViewResource(R.layout.my_spinner);
+        spinner_age.setAdapter(adapter_age);
+
+        spinner_color = (Spinner) getActivity().findViewById(R.id.spinner_color);
+        adapter_color = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.color,R.layout.my_spinner);
+        adapter_color.setDropDownViewResource(R.layout.my_spinner);
+        spinner_color.setAdapter(adapter_color);
+
+        spinner_size = (Spinner) getActivity().findViewById(R.id.spinner_size);
+        adapter_size = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.size,R.layout.my_spinner);
+        adapter_size.setDropDownViewResource(R.layout.my_spinner);
+        spinner_size.setAdapter(adapter_size);
 
         FragmentActivity activity = getActivity();
         activity.findViewById(R.id.name).requestFocus();
@@ -82,13 +120,34 @@ public class AddNewFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getView().getRootView().getWindowToken(), 0);
 
+                // Get all information
                 FragmentActivity activity = getActivity();
-                EditText name = activity.findViewById(R.id.name);
-                String nameStr = name.getText().toString();
-                EditText gender = activity.findViewById(R.id.gender);
-                String genderStr = gender.getText().toString();
-                EditText info = activity.findViewById(R.id.description);
-                String infoStr = info.getText().toString();
+
+                EditText nameEditText = activity.findViewById(R.id.name);
+                String name = nameEditText.getText().toString();
+
+                Spinner genderSpinner = activity.findViewById(R.id.spinner_gender);
+                String gender = genderSpinner.getSelectedItem().toString();
+
+                Spinner speciesSpinner = activity.findViewById(R.id.spinner_species);
+                String species = speciesSpinner.getSelectedItem().toString();
+
+                Spinner ageSpinner = activity.findViewById(R.id.spinner_age);
+                String age = ageSpinner.getSelectedItem().toString();
+
+                Spinner colorSpinner = activity.findViewById(R.id.spinner_color);
+                String color = colorSpinner.getSelectedItem().toString();
+
+                Spinner sizeSpinner = activity.findViewById(R.id.spinner_size);
+                String size = sizeSpinner.getSelectedItem().toString();
+
+                EditText feeEditText = activity.findViewById(R.id.adoption_fee);
+                int fee = Integer.parseInt(feeEditText.getText().toString());
+
+                EditText infoEditText = activity.findViewById(R.id.description);
+                String info = infoEditText.getText().toString();
+
+                // TODO
 
                 // Get the new pet's key in the database for storing the image
 
@@ -102,19 +161,19 @@ public class AddNewFragment extends Fragment {
                         .child(key)
                         .child(imageUri.getLastPathSegment());
 
-                putImageInStorage(imageRef, imageUri, petsRef, nameStr, genderStr, infoStr, key);
+                addNewPetToDatabase(imageRef, imageUri, petsRef, name, gender, info, key, species, age, color, size, fee);
             }
         });
     }
 
-    private void putImageInStorage(final StorageReference storageReference, final Uri uri, final DatabaseReference petsRef, final String name, final String gender, final String info, final String key) {
+    private void addNewPetToDatabase(final StorageReference storageReference, final Uri uri, final DatabaseReference petsRef, final String name, final String gender, final String info, final String key, final String species, final String age, final String color, final String size, final int fee) {
         storageReference.putBytes(baos.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid()));
+                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid(), species, age, color, size, fee));
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
                     }
                 });

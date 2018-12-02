@@ -27,26 +27,14 @@
         android:id="@+id/email"
         android:layout_width="354dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="9dp"
         android:layout_marginTop="199dp"
+        android:layout_marginLeft="10dp"
         android:ems="10"
-        android:hint="E-mail"
+        android:hint="email"
         android:inputType="textPersonName"
-        app:fontFamily="@font/andika" />
-
-    <TextView
-        android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp"
-        android:text="Go back"
-        android:textColor="#001fcc"
-        android:textSize="24sp"
-        app:fontFamily="@font/andika" />
+        app:fontFamily="@font/andika"
+        android:background="@drawable/bg_edittext"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/submit"
@@ -58,5 +46,23 @@
         android:layout_marginStart="142dp"
         android:layout_marginLeft="142dp"
         android:layout_marginBottom="163dp"
-        android:text="Submit" />
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="100dp"
+        android:layout_height="66dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="140dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginBottom="65dp"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 </RelativeLayout>

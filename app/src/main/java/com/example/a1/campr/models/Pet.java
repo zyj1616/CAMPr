@@ -17,7 +17,6 @@ public class Pet {
     private String picUrl;
     private String listerId;
     private String species;
-    private String breed;
     private String age;
     private String color;
     private String size;
@@ -27,7 +26,7 @@ public class Pet {
     private HashMap<String, Boolean> impossibleAdopters;
     private HashMap<String,Boolean> applications;
     public Pet() {}
-    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species,String breed,
+    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species,
                String age,String color,String size,Integer fee) {
         this.name = name;
         this.gender = gender;
@@ -36,7 +35,6 @@ public class Pet {
         this.picUrl = picUrl;
         this.listerId = listerId;
         this.species = species;
-        this.breed = breed;
         this.age = age;
         this.color = color;
         this.size = size;
@@ -66,14 +64,6 @@ public class Pet {
 
     public void setSpecies(String species) {
         this.species = species;
-    }
-
-    public String getBreed() {
-        return breed;
-    }
-
-    public void setBreed(String breed) {
-        this.breed = breed;
     }
 
     public String getAge() {
