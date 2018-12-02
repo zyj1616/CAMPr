@@ -54,12 +54,18 @@
 
 
     <Button
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete pet" />
+
+    <Button
         android:id="@+id/button_right"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="deletePet"
-        android:text="Delete" />
+        android:text="Button" />
 
 
 </LinearLayout>

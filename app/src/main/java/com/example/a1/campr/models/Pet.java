@@ -41,6 +41,9 @@ public class Pet {
         this.color = color;
         this.size = size;
         this.fee = fee;
+        if(fee == null){
+            fee = 0;
+        }
         if(0  <= fee && fee < 50){
             this.feeRange = "below 50";
         }

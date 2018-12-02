@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.AdopterActivity;
+import com.example.a1.campr.FavouriteActivity;
 import com.example.a1.campr.R;
-import com.example.a1.campr.ViewPetActivity;
 import com.example.a1.campr.models.Pet;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -164,8 +164,9 @@ public class FavoriteFragment extends Fragment {
                 public void onClick(View v) {
 //                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                            new AddNewFragment()).commit();
+
                     String key = idTextView.getText().toString();
-                    Intent intent = new Intent(v.getContext(), ViewPetActivity.class);
+                    Intent intent = new Intent(v.getContext(), FavouriteActivity.class);
                     intent.putExtra("pet_id", key);
                     v.getContext().startActivity(intent);
                 }

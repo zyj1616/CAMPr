@@ -1,6 +1,7 @@
 package com.example.a1.campr.models;
 
 public class Application {
+
     private String applicationId;
     private String listerId;
     private String adopterId;
@@ -8,6 +9,17 @@ public class Application {
     private boolean approval;
     private String message;
 
+    public Application(String listerId, String adopterId, String petId, boolean approval, String message, boolean currentContact) {
+        this.listerId = listerId;
+        this.adopterId = adopterId;
+        this.petId = petId;
+        this.approval = approval;
+        this.message = message;
+        this.currentContact = currentContact;
+    }
+    public Application(){
+
+    }
     public String getMessage() {
         return message;
     }

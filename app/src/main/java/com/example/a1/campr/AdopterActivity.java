@@ -106,7 +106,7 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
                         break;
                     case RIGHT:
                         mDatabaseRef.child("pets").child(targetPet.getId()).child("possibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
-                        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(targetPet.getId()).setValue(true);
+                        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(targetPet.getId()).setValue(false);
                         break;
                 }
             }

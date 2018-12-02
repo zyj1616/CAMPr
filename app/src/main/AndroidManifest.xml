@@ -13,6 +13,7 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".WorkModeActivity" />
         <activity android:name=".ResetActivity" />
+        <activity android:name=".FavouriteActivity"/>
         <activity
             android:name=".AdopterActivity"
             android:theme="@style/AppTheme.NoActionBar" />

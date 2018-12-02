@@ -58,4 +58,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    //text in alert dialog
+    <string name="edit_pet_confirm">Save</string>
+    <string name="edit_pet_cancel">Cancel</string>
+    <string name="apply_dialog">APPLY</string>
+    <string name="cancel_dialog">Cancel</string>
+    <string name="apply_msg">Enter an application message (Optional)</string>
+
 </resources>

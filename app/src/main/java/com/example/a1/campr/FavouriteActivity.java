@@ -29,7 +29,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewPetActivity extends AppCompatActivity {
+public class FavouriteActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseRef;
@@ -40,6 +40,7 @@ public class ViewPetActivity extends AppCompatActivity {
     private DatabaseReference petRef;
     private DatabaseReference applicationRef;
     private boolean hasApplied = false;
+    private String ListerId;
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -51,7 +52,7 @@ public class ViewPetActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_pet);
+        setContentView(R.layout.activity_view_favourite_pet);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -76,6 +77,7 @@ public class ViewPetActivity extends AppCompatActivity {
                 TextView descriptionTextView = findViewById(R.id.description);
                 descriptionTextView.setText(pet.getInfo());
                 ImageView picImageView = findViewById(R.id.pic);
+                ListerId = pet.getListerId();
                 Glide.with(picImageView.getContext())
                         .load(pet.getPicUrl())
                         .into(picImageView);
@@ -86,7 +88,63 @@ public class ViewPetActivity extends AppCompatActivity {
                 // do nothing
             }
         });
-
+        applicationRef = mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(pet_id);
+        applicationRef.addListenerForSingleValueEvent(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.getValue() == null){
+                    hasApplied = false;
+                }
+                else{
+                    hasApplied = snapshot.getValue(Boolean.class);
+                }
+                //todo withdraw application
+                if(hasApplied){
+                    Button remove = findViewById(R.id.button);
+                    remove.setText("Withdraw");
+                    Button goBack = findViewById(R.id.button_right);
+                    remove.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(pet_id).setValue(false);
+                            finish();
+                        }
+                    });
+                    goBack.setText("Go back");
+                    goBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    });
+                }
+                else{
+                    Button Apply = findViewById(R.id.button);
+                    Apply.setText("Apply");
+                    Apply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(pet_id).setValue(true);
+                            Application application = new Application(ListerId,mFirebaseUser.getUid(),pet_id,false," ",false);
+                            mDatabaseRef.child("applications").push().setValue(application);
+                            finish();
+                        }
+                    });
+                    Button goBack = findViewById(R.id.button_right);
+                    goBack.setText("Go back");
+                    goBack.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // do nothing
+            }
+        });
     }
 
     public void deletePet(View view) {

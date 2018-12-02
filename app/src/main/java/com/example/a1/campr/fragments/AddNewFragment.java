@@ -114,7 +114,8 @@ public class AddNewFragment extends Fragment {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid()));
+                        //todo 改成实际数值
+                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid(),null,null,null,null,null,10));
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
                     }
                 });

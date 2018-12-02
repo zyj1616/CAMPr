@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.a1.campr.ApplicantsActivity;
 import com.example.a1.campr.models.Pet;
 import com.example.a1.campr.R;
 import com.example.a1.campr.ViewPetActivity;
@@ -29,7 +30,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class    PetsFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PetsFragment extends Fragment {
     public RecyclerView mRecyclerView;
     public LinearLayoutManager mLinearLayoutManager;
     private FirebaseDatabase mDatabase;
@@ -39,6 +43,11 @@ public class    PetsFragment extends Fragment {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseRecyclerAdapter<Pet, PetViewHolder> mFirebaseAdapter;
+    public RecyclerView.Adapter mAdapter;
+    public RecyclerView.LayoutManager layoutManager;
+    public static ArrayList<Pet> input = new ArrayList<>();
+    public static HashMap<String, Pet> myPets = new HashMap<>();
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_pets, container,false);
@@ -88,14 +97,39 @@ public class    PetsFragment extends Fragment {
             }
 
             @Override
-            protected void onBindViewHolder(final PetViewHolder viewHolder, int position, Pet pet) {
+            protected void onBindViewHolder(final PetViewHolder viewHolder, int position, final Pet pet) {
                 viewHolder.headerTextView.setText(pet.getName());
                 viewHolder.footerTextView.setText(pet.getGender());
                 viewHolder.idTextView.setText(pet.getId());
-
+                int size = 0;
+                if(pet.getApplications() == null){
+                    size = 0;
+                }
+                else {
+                    size = pet.getApplications().keySet().size();
+                }
+                if (size > 0) {
+                    if (size == 1) {
+                        viewHolder.applicationView.setText("         " + Integer.toString(size) + "\nAPPLICANT");
+                    } else {
+                        viewHolder.applicationView.setText("          " + Integer.toString(size) + " APPLICANTS");
+                    }
+                    viewHolder.applicationView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(view.getContext(), ApplicantsActivity.class);
+                            intent.putExtra("pet_id", pet.getId());
+                            view.getContext().startActivity(intent);
+                        }
+                    });
+                }
+                else {
+                    viewHolder.applicationView.setText("");
+                }
                 Glide.with(viewHolder.picImageView.getContext())
                         .load(pet.getPicUrl())
                         .into(viewHolder.picImageView);
+
             }
         };
 
@@ -139,6 +173,7 @@ public class    PetsFragment extends Fragment {
         private TextView headerTextView;
         private TextView footerTextView;
         private TextView idTextView;
+        private TextView applicationView;
         public View layout;
 
         private PetViewHolder(View v) {
@@ -148,7 +183,7 @@ public class    PetsFragment extends Fragment {
             headerTextView = v.findViewById(R.id.first_line);
             footerTextView = v.findViewById(R.id.second_line);
             idTextView = v.findViewById(R.id.pet_id);
-
+            applicationView = v.findViewById(R.id.applicants);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
