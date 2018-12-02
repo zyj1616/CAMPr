@@ -26,8 +26,7 @@ public class Pet {
     private HashMap<String, Boolean> impossibleAdopters;
     private HashMap<String,Boolean> applications;
     public Pet() {}
-    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species,
-               String age,String color,String size,Integer fee) {
+    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species, String age,String color,String size,Integer fee) {
         this.name = name;
         this.gender = gender;
         this.info = info;

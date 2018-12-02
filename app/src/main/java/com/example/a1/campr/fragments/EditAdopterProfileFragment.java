@@ -164,8 +164,7 @@ public class EditAdopterProfileFragment extends Fragment {
                 backButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), AdopterActivity.class);
-                        startActivity(intent);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
                     }
                 });
             }

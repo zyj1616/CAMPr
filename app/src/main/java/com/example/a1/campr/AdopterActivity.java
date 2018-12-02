@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.a1.campr.fragments.EditAdopterProfileFragment;
 import com.example.a1.campr.fragments.FavoriteFragment;
 import com.example.a1.campr.fragments.PreferenceFragment;
+import com.example.a1.campr.fragments.SwipeCardsFragment;
 import com.example.a1.campr.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,6 +49,9 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
     private StorageReference mStorageRef;
     private ArrayList<Pet> list;
     private SwipeCardsView swipeCardsView;
+
+    // Filters
+    private HashMap<String, String> filters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,53 +91,70 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Set up swipe cards
-        swipeCardsView = findViewById(R.id.swipe_cards_view);
-        swipeCardsView.retainLastCard(false);
-        swipeCardsView.enableSwipe(true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_swipe_cards);
 
-        // Add litener
-        swipeCardsView.setCardsSlideListener(new SwipeCardsView.CardsSlideListener() {
-            @Override
-            public void onShow(int index) {
-                // TODO
-            }
+//        showSwipeCards();
+    }
 
-            @Override
-            public void onCardVanish(int index, SwipeCardsView.SlideType type) {
-                Pet targetPet = list.get(index);
-                switch (type){
-                    case LEFT:
-                        mDatabaseRef.child("pets").child(targetPet.getId()).child("impossibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
-                        break;
-                    case RIGHT:
-                        mDatabaseRef.child("pets").child(targetPet.getId()).child("possibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
-                        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(targetPet.getId()).setValue(true);
-                        break;
-                }
-            }
-
-            @Override
-            public void onItemClick(View cardImageView, int index) {
-                // TODO
-            }
-        });
-
-        Query initialQuery = mDatabaseRef.child("pets")
-                .orderByChild("possibleAdopters/" + mFirebaseUser.getUid()).equalTo(null);
-
-        initialQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                list = new ArrayList<>();
-                for (DataSnapshot petSnapshot: snapshot.getChildren()) {
-                    HashMap<String, Boolean> impossibleAdopters = petSnapshot.getValue(Pet.class).getImpossibleAdopters();
-                    if (impossibleAdopters == null || !impossibleAdopters.containsKey(mFirebaseUser.getUid()))
-                        list.add(petSnapshot.getValue(Pet.class));
-                }
-
-                PetAdapter petAdapter = new PetAdapter(list, AdopterActivity.this);
-                swipeCardsView.setAdapter(petAdapter);
+//    public void showSwipeCards() {
+//        findViewById(R.id.swipe_cards_view).setVisibility(View.VISIBLE);
+//
+//        // Set up swipe cards
+//        swipeCardsView = findViewById(R.id.swipe_cards_view);
+//        swipeCardsView.retainLastCard(false);
+//        swipeCardsView.enableSwipe(true);
+//
+//        // Add litener
+//        swipeCardsView.setCardsSlideListener(new SwipeCardsView.CardsSlideListener() {
+//            @Override
+//            public void onShow(int index) {
+//                // TODO
+//            }
+//
+//            @Override
+//            public void onCardVanish(int index, SwipeCardsView.SlideType type) {
+//                Pet targetPet = list.get(index);
+//                switch (type){
+//                    case LEFT:
+//                        mDatabaseRef.child("pets").child(targetPet.getId()).child("impossibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
+//                        break;
+//                    case RIGHT:
+//                        mDatabaseRef.child("pets").child(targetPet.getId()).child("possibleAdopters").child(mFirebaseUser.getUid()).setValue(true);
+//                        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).child("chosenPets").child(targetPet.getId()).setValue(true);
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onItemClick(View cardImageView, int index) {
+//                // TODO
+//            }
+//        });
+//
+//        Query initialQuery = mDatabaseRef.child("pets")
+//                .orderByChild("possibleAdopters/" + mFirebaseUser.getUid()).equalTo(null);
+//
+//        initialQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                list = new ArrayList<>();
+//                for (DataSnapshot petSnapshot : snapshot.getChildren()) {
+//                    HashMap<String, Boolean> impossibleAdopters = petSnapshot.getValue(Pet.class).getImpossibleAdopters();
+//                    if (impossibleAdopters == null || !impossibleAdopters.containsKey(mFirebaseUser.getUid()))
+//                        list.add(petSnapshot.getValue(Pet.class));
+//                }
+//
+//                PetAdapter petAdapter = new PetAdapter(list, AdopterActivity.this);
+//                swipeCardsView.setAdapter(petAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                // do nothing
+//            }
+//        });
+//    }
 
 //                final PetAdapter arrayAdapter = new PetAdapter(AdopterActivity.this, petList);
 //                SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);
@@ -167,36 +190,28 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
 //
 //                    }
 //                });
-            }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // do nothing
-            }
-        });
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         View view = findViewById(R.id.swipe_cards_view);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()) {
+            case R.id.nav_swipe_cards:
+                transaction.replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
+                navigationView.setCheckedItem(R.id.nav_swipe_cards);
+                break;
             case R.id.nav_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new EditAdopterProfileFragment()).commit();
-                view.setVisibility(View.GONE);
+                transaction.replace(R.id.fragment_container, new EditAdopterProfileFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_profile);
                 break;
             case R.id.nav_preference:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new PreferenceFragment()).commit();
-                view.setVisibility(View.GONE);
+                transaction.replace(R.id.fragment_container, new PreferenceFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_preference);
                 break;
             case R.id.nav_favorite:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FavoriteFragment()).commit();
-                view.setVisibility(View.GONE);
+                transaction.replace(R.id.fragment_container, new FavoriteFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_favorite);
                 break;
             case R.id.nav_signout:
@@ -254,51 +269,63 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
 //        }
 //    }
 
-    public class PetAdapter extends BaseCardAdapter {
-        private List<Pet> petList;
-        private Context context;
+//    public class PetAdapter extends BaseCardAdapter {
+//        private List<Pet> petList;
+//        private Context context;
+//
+//        private PetAdapter(List<Pet> petList, Context context) {
+//            this.petList = petList;
+//            this.context = context;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return petList.size();
+//        }
+//
+//        @Override
+//        public int getCardLayoutId() {
+//            return R.layout.item;
+//        }
+//
+//        @Override
+//        public void onBindData(int position, View cardview) {
+//            if (petList == null || petList.size() == 0) {
+//                return;
+//            }
+//
+//            Pet pet = petList.get(position);
+//
+//            ImageView imageView = cardview.findViewById(R.id.image);
+//            Glide.with(imageView.getContext())
+//                    .load(pet.getPicUrl())
+//                    .into(imageView);
+//
+//            TextView nameTextView = cardview.findViewById(R.id.name);
+//            nameTextView.setText(pet.getName());
+//
+//            TextView genderTextView = cardview.findViewById(R.id.gender);
+//            genderTextView.setText(pet.getGender());
+//
+//            TextView descriptionTextView = cardview.findViewById(R.id.description);
+//            descriptionTextView.setText(pet.getInfo());
+//        }
+//
+//        @Override
+//        public int getVisibleCardCount() {
+//            return super.getVisibleCardCount();
+//        }
+//    }
 
-        public PetAdapter(List<Pet> petList, Context context) {
-            this.petList = petList;
-            this.context = context;
-        }
+    public void changeFilters(String species, String age, String color, String size, String feeRange) {
+        filters.put("species", species);
+        filters.put("age", age);
+        filters.put("color", color);
+        filters.put("size", size);
+        filters.put("feeRange", feeRange);
+    }
 
-        @Override
-        public int getCount() {
-            return petList.size();
-        }
-
-        @Override
-        public int getCardLayoutId() {
-            return R.layout.item;
-        }
-
-        @Override
-        public void onBindData(int position, View cardview) {
-            if (petList == null || petList.size() == 0) {
-                return;
-            }
-
-            Pet pet = petList.get(position);
-
-            ImageView imageView = cardview.findViewById(R.id.image);
-            Glide.with(imageView.getContext())
-                    .load(pet.getPicUrl())
-                    .into(imageView);
-
-            TextView nameTextView = cardview.findViewById(R.id.name);
-            nameTextView.setText(pet.getName());
-
-            TextView genderTextView = cardview.findViewById(R.id.gender);
-            genderTextView.setText(pet.getGender());
-
-            TextView descriptionTextView = cardview.findViewById(R.id.description);
-            descriptionTextView.setText(pet.getInfo());
-        }
-
-        @Override
-        public int getVisibleCardCount() {
-            return super.getVisibleCardCount();
-        }
+    public HashMap<String, String> getFilters() {
+        return filters;
     }
 }

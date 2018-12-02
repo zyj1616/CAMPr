@@ -47,17 +47,6 @@ public class AddNewFragment extends Fragment {
     private Uri imageUri;
     private ByteArrayOutputStream baos;
 
-    Spinner spinner_gender;
-    Spinner spinner_species;
-    Spinner spinner_age;
-    Spinner spinner_color;
-    Spinner spinner_size;
-    ArrayAdapter<CharSequence> adapter_species;
-    ArrayAdapter<CharSequence> adapter_gender;
-    ArrayAdapter<CharSequence> adapter_age;
-    ArrayAdapter<CharSequence> adapter_color;
-    ArrayAdapter<CharSequence> adapter_size;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,31 +63,6 @@ public class AddNewFragment extends Fragment {
         mDatabaseRef = mDatabase.getReference();
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference();
-
-        spinner_species = (Spinner) getActivity().findViewById(R.id.spinner_species);
-        adapter_species = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.species,R.layout.my_spinner);
-        adapter_species.setDropDownViewResource(R.layout.my_spinner);
-        spinner_species.setAdapter(adapter_species);
-
-        spinner_gender = (Spinner) getActivity().findViewById(R.id.spinner_gender);
-        adapter_gender = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.genders,R.layout.my_spinner);
-        adapter_gender.setDropDownViewResource(R.layout.my_spinner);
-        spinner_gender.setAdapter(adapter_gender);
-
-        spinner_age = (Spinner) getActivity().findViewById(R.id.spinner_age);
-        adapter_age = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.age,R.layout.my_spinner);
-        adapter_age.setDropDownViewResource(R.layout.my_spinner);
-        spinner_age.setAdapter(adapter_age);
-
-        spinner_color = (Spinner) getActivity().findViewById(R.id.spinner_color);
-        adapter_color = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.color,R.layout.my_spinner);
-        adapter_color.setDropDownViewResource(R.layout.my_spinner);
-        spinner_color.setAdapter(adapter_color);
-
-        spinner_size = (Spinner) getActivity().findViewById(R.id.spinner_size);
-        adapter_size = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.size,R.layout.my_spinner);
-        adapter_size.setDropDownViewResource(R.layout.my_spinner);
-        spinner_size.setAdapter(adapter_size);
 
         FragmentActivity activity = getActivity();
         activity.findViewById(R.id.name).requestFocus();
@@ -121,6 +85,17 @@ public class AddNewFragment extends Fragment {
                 imm.hideSoftInputFromWindow(getView().getRootView().getWindowToken(), 0);
 
                 // Get all information
+                Spinner spinner_gender;
+                Spinner spinner_species;
+                Spinner spinner_age;
+                Spinner spinner_color;
+                Spinner spinner_size;
+                ArrayAdapter<CharSequence> adapter_species;
+                ArrayAdapter<CharSequence> adapter_gender;
+                ArrayAdapter<CharSequence> adapter_age;
+                ArrayAdapter<CharSequence> adapter_color;
+                ArrayAdapter<CharSequence> adapter_size;
+
                 FragmentActivity activity = getActivity();
 
                 EditText nameEditText = activity.findViewById(R.id.name);
@@ -147,6 +122,30 @@ public class AddNewFragment extends Fragment {
                 EditText infoEditText = activity.findViewById(R.id.description);
                 String info = infoEditText.getText().toString();
 
+                spinner_species = (Spinner) getActivity().findViewById(R.id.spinner_species);
+                adapter_species = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.species,R.layout.my_spinner);
+                adapter_species.setDropDownViewResource(R.layout.my_spinner);
+                spinner_species.setAdapter(adapter_species);
+
+                spinner_gender = (Spinner) getActivity().findViewById(R.id.spinner_gender);
+                adapter_gender = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.genders,R.layout.my_spinner);
+                adapter_gender.setDropDownViewResource(R.layout.my_spinner);
+                spinner_gender.setAdapter(adapter_gender);
+
+                spinner_age = (Spinner) getActivity().findViewById(R.id.spinner_age);
+                adapter_age = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.age,R.layout.my_spinner);
+                adapter_age.setDropDownViewResource(R.layout.my_spinner);
+                spinner_age.setAdapter(adapter_age);
+
+                spinner_color = (Spinner) getActivity().findViewById(R.id.spinner_color);
+                adapter_color = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.color,R.layout.my_spinner);
+                adapter_color.setDropDownViewResource(R.layout.my_spinner);
+                spinner_color.setAdapter(adapter_color);
+
+                spinner_size = (Spinner) getActivity().findViewById(R.id.spinner_size);
+                adapter_size = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.size,R.layout.my_spinner);
+                adapter_size.setDropDownViewResource(R.layout.my_spinner);
+                spinner_size.setAdapter(adapter_size);
                 // TODO
 
                 // Get the new pet's key in the database for storing the image
