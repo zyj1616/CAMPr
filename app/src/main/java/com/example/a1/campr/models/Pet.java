@@ -22,11 +22,12 @@ public class Pet {
     private String size;
     private Integer fee;
     private String feeRange;
+    private String city;
+    private int numOfApplicants;
     private HashMap<String, Boolean> possibleAdopters;
     private HashMap<String, Boolean> impossibleAdopters;
-    private HashMap<String,Boolean> applications;
     public Pet() {}
-    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species, String age,String color,String size,Integer fee) {
+    public Pet(String name, String gender, String info, String id, String picUrl, String listerId,String species, String age,String color,String size,Integer fee, String city) {
         this.name = name;
         this.gender = gender;
         this.info = info;
@@ -39,22 +40,24 @@ public class Pet {
         this.size = size;
         this.fee = fee;
         if(0  <= fee && fee < 50){
-            this.feeRange = "below 50";
+            this.feeRange = "Below $50";
         }
         else if(fee >= 50 && fee <100){
-            this.feeRange = "50 to 100";
+            this.feeRange = "$50 to $100";
         }
         else{
-            this.feeRange = "above 100";
+            this.feeRange = "Above $100";
         }
+        this.city = city;
+        this.numOfApplicants = 0;
     }
 
-    public HashMap<String, Boolean> getApplications() {
-        return applications;
+    public int getNumOfApplicants() {
+        return numOfApplicants;
     }
 
-    public void setApplications(HashMap<String, Boolean> applications) {
-        this.applications = applications;
+    public void setNumOfApplicants(int numOfApplicants) {
+        this.numOfApplicants = numOfApplicants;
     }
     
     public String getSpecies() {
@@ -149,5 +152,21 @@ public class Pet {
 
     public void setImpossibleAdopters(HashMap<String, Boolean> impossibleAdopters) {
         this.impossibleAdopters = impossibleAdopters;
+    }
+
+    public List<String> getFeeRanges() {
+        return feeRanges;
+    }
+
+    public void setFeeRanges(List<String> feeRanges) {
+        this.feeRanges = feeRanges;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

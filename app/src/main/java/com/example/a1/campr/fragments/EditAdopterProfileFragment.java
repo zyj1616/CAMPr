@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.AdopterActivity;
@@ -82,13 +84,26 @@ public class EditAdopterProfileFragment extends Fragment {
         final EditText lastnameEditText = activity.findViewById(R.id.lastname);
         final EditText emailEditText = activity.findViewById(R.id.email);
         final EditText phoneNumberEditText = activity.findViewById(R.id.phone_number);
-        final EditText cityEditText = activity.findViewById(R.id.city);
-        final EditText stateEditText = activity.findViewById(R.id.state);
+        final Spinner stateSpinner = activity.findViewById(R.id.state);
+        final Spinner citySpinner = activity.findViewById(R.id.city);
+
+        citySpinner.setEnabled(false);
+        citySpinner.setClickable(false);
+        stateSpinner.setEnabled(false);
+        stateSpinner.setClickable(false);
+
+        ArrayAdapter stateAdapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.states_no_any,R.layout.support_simple_spinner_dropdown_item);
+        stateAdapter.setDropDownViewResource(R.layout.spinner_item);
+        stateSpinner.setAdapter(stateAdapter);
+
+        ArrayAdapter cityAdapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.cities_no_any,R.layout.support_simple_spinner_dropdown_item);
+        cityAdapter.setDropDownViewResource(R.layout.spinner_item);
+        citySpinner.setAdapter(cityAdapter);
 
         mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null) {
+                if (dataSnapshot.getValue() != null) {
                     adopter = dataSnapshot.getValue(Adopter.class);
                     Glide.with(imageView.getContext())
                             .load(adopter.getPicUrl())
@@ -97,8 +112,8 @@ public class EditAdopterProfileFragment extends Fragment {
                     lastnameEditText.setText(adopter.getLastname());
                     emailEditText.setText(adopter.getEmail());
                     phoneNumberEditText.setText(adopter.getPhoneNumber());
-                    cityEditText.setText(adopter.getCity());
-                    stateEditText.setText(adopter.getState());
+                    stateSpinner.setSelection(stateAdapter.getPosition(adopter.getState()));
+                    citySpinner.setSelection(cityAdapter.getPosition(adopter.getCity()));
                 }
 
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -121,8 +136,10 @@ public class EditAdopterProfileFragment extends Fragment {
                         lastnameEditText.setEnabled(true);
                         emailEditText.setEnabled(true);
                         phoneNumberEditText.setEnabled(true);
-                        cityEditText.setEnabled(true);
-                        stateEditText.setEnabled(true);
+                        citySpinner.setEnabled(true);
+                        citySpinner.setClickable(true);
+                        stateSpinner.setEnabled(true);
+                        stateSpinner.setClickable(true);
                     }
                 });
 
@@ -136,15 +153,17 @@ public class EditAdopterProfileFragment extends Fragment {
                         lastnameEditText.setEnabled(false);
                         emailEditText.setEnabled(false);
                         phoneNumberEditText.setEnabled(false);
-                        cityEditText.setEnabled(false);
-                        stateEditText.setEnabled(false);
+                        citySpinner.setEnabled(false);
+                        citySpinner.setClickable(false);
+                        stateSpinner.setEnabled(false);
+                        stateSpinner.setClickable(false);
 
                         String firstname = firstnameEditText.getText().toString();
                         String lastname = lastnameEditText.getText().toString();
                         String email = emailEditText.getText().toString();
                         String phoneNumber = phoneNumberEditText.getText().toString();
-                        String city = cityEditText.getText().toString();
-                        String state = stateEditText.getText().toString();
+                        String city = citySpinner.getSelectedItem().toString();
+                        String state = stateSpinner.getSelectedItem().toString();
 
                         // Upload the adopter profile image to Firebase Cloud Storage and retrieve the link
 
@@ -157,14 +176,6 @@ public class EditAdopterProfileFragment extends Fragment {
                                     .child(imageUri.getLastPathSegment());
                             updateAdopterWithNewImage(imageRef, firstname, lastname, email, phoneNumber, city, state, mFirebaseUser.getUid());
                         }
-                    }
-                });
-
-                Button backButton = activity.findViewById(R.id.back);
-                backButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
                     }
                 });
             }
@@ -200,8 +211,10 @@ public class EditAdopterProfileFragment extends Fragment {
         updatedPart.put("city", city);
         updatedPart.put("state", city);
         updatedPart.put("picUrl", picUrl);
+        updatedPart.put("id", key);
 
         mDatabase.getReference("adopters").child(key).updateChildren(updatedPart);
+        mDatabase.getReference("listers").child(key).updateChildren(updatedPart);
     }
 
     @Override
@@ -238,7 +251,7 @@ public class EditAdopterProfileFragment extends Fragment {
 
                         croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         ImageView imageView = getActivity().findViewById(R.id.profile_pic);
-                        imageView.setImageBitmap(imageBitmap);
+                        imageView.setImageBitmap(croppedBitmap);
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
                     }

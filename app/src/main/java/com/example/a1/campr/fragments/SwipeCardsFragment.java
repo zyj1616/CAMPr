@@ -6,24 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.AdopterActivity;
 import com.example.a1.campr.R;
-import com.example.a1.campr.ViewPetActivity;
-import com.example.a1.campr.models.Adopter;
+import com.example.a1.campr.ViewAdopterPetActivity;
+import com.example.a1.campr.ViewListerPetActivity;
+import com.example.a1.campr.ViewSwipeCardActivity;
 import com.example.a1.campr.models.Pet;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -93,7 +88,10 @@ public class SwipeCardsFragment extends Fragment {
 
             @Override
             public void onItemClick(View cardImageView, int index) {
-                // TODO
+                Pet targetPet = list.get(index);
+                Intent intent = new Intent(cardImageView.getContext(), ViewSwipeCardActivity.class);
+                intent.putExtra("pet_id", targetPet.getId());
+                cardImageView.getContext().startActivity(intent);
             }
         });
 
@@ -102,30 +100,40 @@ public class SwipeCardsFragment extends Fragment {
 
         initialQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             private boolean filtersMatched(HashMap<String, String> filters, Pet pet) {
-                return ((pet.getSpecies().equals("any") || filters.get("species").equals(pet.getSpecies())) &&
-                        (pet.getAge().equals("any") || filters.get("age").equals(pet.getAge())) &&
-                        (pet.getSize().equals("any") || filters.get("size").equals(pet.getSize())) &&
-                        (pet.getColor().equals("any") || filters.get("color").equals(pet.getColor())) &&
-                        (pet.getFeeRange().equals("any") || filters.get("feeRange").equals(pet.getFeeRange())));
+                return ((filters.get("species").equals("Any") || filters.get("species").equals(pet.getSpecies())) &&
+                        (filters.get("age").equals("Any") || filters.get("age").equals(pet.getAge())) &&
+                        (filters.get("size").equals("Any") || filters.get("size").equals(pet.getSize())) &&
+                        (filters.get("color").equals("Any") || filters.get("color").equals(pet.getColor())) &&
+                        (filters.get("feeRange").equals("Any") || filters.get("feeRange").equals(pet.getFeeRange())));
             }
 
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot petsSnapshot) {
                 list = new ArrayList<>();
 
                 // Filters
                 HashMap<String, String> filters = ((AdopterActivity)getActivity()).getFilters();
 
-                for (DataSnapshot petSnapshot: snapshot.getChildren()) {
-                    Pet pet = petSnapshot.getValue(Pet.class);
-                    HashMap<String, Boolean> impossibleAdopters = pet.getImpossibleAdopters();
-                    if ((impossibleAdopters == null || !impossibleAdopters.containsKey(mFirebaseUser.getUid()))
-                            && filtersMatched(filters, pet))
-                        list.add(pet);
-                }
+                mDatabaseRef.child("adopters/" + mFirebaseUser.getUid() + "/city").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot petSnapshot: petsSnapshot.getChildren()) {
+                            Pet pet = petSnapshot.getValue(Pet.class);
+                            HashMap<String, Boolean> impossibleAdopters = pet.getImpossibleAdopters();
+                            if ((impossibleAdopters == null || !impossibleAdopters.containsKey(mFirebaseUser.getUid()))
+                                    && filtersMatched(filters, pet) && (dataSnapshot.getValue() == null || pet.getCity().equals(dataSnapshot.getValue(String.class))))
+                                list.add(pet);
+                        }
 
-                PetAdapter petAdapter = new PetAdapter(list, getContext());
-                swipeCardsView.setAdapter(petAdapter);
+                        PetAdapter petAdapter = new PetAdapter(list, getContext());
+                        swipeCardsView.setAdapter(petAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 //                final PetAdapter arrayAdapter = new PetAdapter(AdopterActivity.this, petList);
 //                SwipeFlingAdapterView flingContainer = findViewById(R.id.frame);

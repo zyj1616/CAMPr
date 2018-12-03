@@ -6,25 +6,27 @@ public class Application {
     private String adopterId;
     private String petId;
     private boolean approval;
-    private String message;
+    private boolean rejection;
+//    private String message;
 
-    public String getMessage() {
-        return message;
+    public Application() {}
+
+    public Application(String listerId, String adopterId, String petId) {
+        this.listerId = listerId;
+        this.adopterId = adopterId;
+        this.petId = petId;
+        this.rejection = false;
+        this.approval = false;
+//        this.message = message;
     }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isCurrentContact() {
-        return currentContact;
-    }
-
-    public void setCurrentContact(boolean currentContact) {
-        this.currentContact = currentContact;
-    }
-
-    private boolean currentContact;
+//
+//    public String getMessage() {
+//        return message;
+//    }
+//
+//    public void setMessage(String message) {
+//        this.message = message;
+//    }
 
     public String getApplicationId() {
         return applicationId;
@@ -66,6 +68,12 @@ public class Application {
         this.approval = approval;
     }
 
+    public boolean isRejection() {
+        return rejection;
+    }
 
+    public void setRejection(boolean rejection) {
+        this.rejection = rejection;
+    }
 }
 

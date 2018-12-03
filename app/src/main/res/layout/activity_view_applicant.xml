@@ -17,7 +17,6 @@
             android:gravity="center">
 
             <ImageView
-                android:clickable="false"
                 android:id="@+id/profile_pic"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
@@ -26,11 +25,11 @@
                 android:scaleType="centerCrop" />
 
             <LinearLayout
-                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:gravity="center|bottom"
+                android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp" >
 
                 <TextView
                     android:layout_width="120dp"
@@ -38,21 +37,26 @@
                     android:text="Firstname"
                     android:textSize="18dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/firstname"
                     android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:paddingVertical="5dp"
+                    android:textColor="#000"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"/>
+                    android:background="#eee"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_width="120dp"
@@ -60,21 +64,26 @@
                     android:text="Lastname"
                     android:textSize="18dp"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/lastname"
                     android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:paddingVertical="5dp"
+                    android:textSize="18dp"
+                    android:textColor="#000"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:background="#eee"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_width="120dp"
@@ -82,42 +91,52 @@
                     android:text="Email"
                     android:textSize="18dp"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/email"
                     android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:paddingVertical="5dp"
+                    android:textColor="#000"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"/>
+                    android:background="#eee"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Phone Number"
+                    android:text="Phone"
                     android:textSize="18dp"/>
 
-                <EditText
+                <TextView
                     android:id="@+id/phone_number"
                     android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:paddingVertical="5dp"
+                    android:textColor="#000"
+                    android:textSize="18dp"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPhonetic"/>
+                    android:background="#eee"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_width="120dp"
@@ -125,27 +144,25 @@
                     android:text="State"
                     android:textSize="18dp"/>
 
-                <Spinner
+                <TextView
                     android:id="@+id/state"
-                    style="@style/Widget.AppCompat.Spinner"
+                    android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:paddingVertical="5dp"
+                    android:textColor="#000"
                     android:layout_width="200dp"
-                    android:layout_height="30dp"
-                    android:dropDownWidth="150dp"
-                    android:dropDownVerticalOffset="35dp"
-                    android:background="@drawable/spinner_bg"
-                    android:popupBackground="@android:color/white"
-                    android:paddingRight="14dp"
-                    android:layout_marginVertical="10dp"
-                    android:stateListAnimator="@drawable/spinner_sla"
-                    android:popupElevation="3dp"/>
+                    android:background="#eee"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp">
 
                 <TextView
                     android:layout_width="120dp"
@@ -153,52 +170,50 @@
                     android:text="City"
                     android:textSize="18dp"/>
 
-                <Spinner
+                <TextView
                     android:id="@+id/city"
-                    style="@style/Widget.AppCompat.Spinner"
+                    android:enabled="false"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
                     android:layout_width="200dp"
-                    android:layout_height="30dp"
-                    android:dropDownWidth="150dp"
-                    android:dropDownVerticalOffset="35dp"
-                    android:background="@drawable/spinner_bg"
-                    android:popupBackground="@android:color/white"
-                    android:paddingRight="14dp"
-                    android:layout_marginVertical="10dp"
-                    android:stateListAnimator="@drawable/spinner_sla"
-                    android:popupElevation="3dp"/>
+                    android:background="#eee"
+                    android:paddingVertical="5dp"
+                    android:textColor="#000"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right">
+                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/edit"
-                    android:layout_width="match_parent"
+                    android:id="@+id/reject"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit"
-                    android:layout_marginHorizontal="40dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:textColor="#fff"
+                    android:text="Reject"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/approve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_weight="1"
                     android:textSize="18dp"
                     android:background="@color/colorPrimary"
                     android:textColor="#fff"
-                    />
-
-                <Button
-                    android:id="@+id/submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:layout_marginHorizontal="40dp"
-                    android:layout_marginTop="20dp"
-                    android:visibility="gone"
-                    android:textSize="18dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:textColor="#fff"
-                    />
+                    android:text="Approve"
+                    android:textAllCaps="false"/>
 
             </LinearLayout>
 

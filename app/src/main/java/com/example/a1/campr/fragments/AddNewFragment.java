@@ -25,8 +25,11 @@ import android.widget.Spinner;
 import com.example.a1.campr.models.Pet;
 import com.example.a1.campr.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -65,7 +68,42 @@ public class AddNewFragment extends Fragment {
         mStorageRef = mStorage.getReference();
 
         FragmentActivity activity = getActivity();
-        activity.findViewById(R.id.name).requestFocus();
+
+        Spinner spinner_gender;
+        Spinner spinner_species;
+        Spinner spinner_age;
+        Spinner spinner_color;
+        Spinner spinner_size;
+        ArrayAdapter<CharSequence> adapter_species;
+        ArrayAdapter<CharSequence> adapter_gender;
+        ArrayAdapter<CharSequence> adapter_age;
+        ArrayAdapter<CharSequence> adapter_color;
+        ArrayAdapter<CharSequence> adapter_size;
+
+        spinner_species = (Spinner) getActivity().findViewById(R.id.spinner_species);
+        adapter_species = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.species_no_any,R.layout.support_simple_spinner_dropdown_item);
+        adapter_species.setDropDownViewResource(R.layout.spinner_item);
+        spinner_species.setAdapter(adapter_species);
+
+        spinner_gender = (Spinner) getActivity().findViewById(R.id.spinner_gender);
+        adapter_gender = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.genders_no_any,R.layout.support_simple_spinner_dropdown_item);
+        adapter_gender.setDropDownViewResource(R.layout.spinner_item);
+        spinner_gender.setAdapter(adapter_gender);
+
+        spinner_age = (Spinner) getActivity().findViewById(R.id.spinner_age);
+        adapter_age = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.age_no_any,R.layout.support_simple_spinner_dropdown_item);
+        adapter_age.setDropDownViewResource(R.layout.spinner_item);
+        spinner_age.setAdapter(adapter_age);
+
+        spinner_color = (Spinner) getActivity().findViewById(R.id.spinner_color);
+        adapter_color = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.color_no_any,R.layout.support_simple_spinner_dropdown_item);
+        adapter_color.setDropDownViewResource(R.layout.spinner_item);
+        spinner_color.setAdapter(adapter_color);
+
+        spinner_size = (Spinner) getActivity().findViewById(R.id.spinner_size);
+        adapter_size = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.size_no_any,R.layout.support_simple_spinner_dropdown_item);
+        adapter_size.setDropDownViewResource(R.layout.spinner_item);
+        spinner_size.setAdapter(adapter_size);
 
         ImageView image = activity.findViewById(R.id.image);
         image.setOnClickListener(new View.OnClickListener() {
@@ -85,16 +123,6 @@ public class AddNewFragment extends Fragment {
                 imm.hideSoftInputFromWindow(getView().getRootView().getWindowToken(), 0);
 
                 // Get all information
-                Spinner spinner_gender;
-                Spinner spinner_species;
-                Spinner spinner_age;
-                Spinner spinner_color;
-                Spinner spinner_size;
-                ArrayAdapter<CharSequence> adapter_species;
-                ArrayAdapter<CharSequence> adapter_gender;
-                ArrayAdapter<CharSequence> adapter_age;
-                ArrayAdapter<CharSequence> adapter_color;
-                ArrayAdapter<CharSequence> adapter_size;
 
                 FragmentActivity activity = getActivity();
 
@@ -122,30 +150,6 @@ public class AddNewFragment extends Fragment {
                 EditText infoEditText = activity.findViewById(R.id.description);
                 String info = infoEditText.getText().toString();
 
-                spinner_species = (Spinner) getActivity().findViewById(R.id.spinner_species);
-                adapter_species = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.species,R.layout.my_spinner);
-                adapter_species.setDropDownViewResource(R.layout.my_spinner);
-                spinner_species.setAdapter(adapter_species);
-
-                spinner_gender = (Spinner) getActivity().findViewById(R.id.spinner_gender);
-                adapter_gender = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.genders,R.layout.my_spinner);
-                adapter_gender.setDropDownViewResource(R.layout.my_spinner);
-                spinner_gender.setAdapter(adapter_gender);
-
-                spinner_age = (Spinner) getActivity().findViewById(R.id.spinner_age);
-                adapter_age = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.age,R.layout.my_spinner);
-                adapter_age.setDropDownViewResource(R.layout.my_spinner);
-                spinner_age.setAdapter(adapter_age);
-
-                spinner_color = (Spinner) getActivity().findViewById(R.id.spinner_color);
-                adapter_color = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.color,R.layout.my_spinner);
-                adapter_color.setDropDownViewResource(R.layout.my_spinner);
-                spinner_color.setAdapter(adapter_color);
-
-                spinner_size = (Spinner) getActivity().findViewById(R.id.spinner_size);
-                adapter_size = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.size,R.layout.my_spinner);
-                adapter_size.setDropDownViewResource(R.layout.my_spinner);
-                spinner_size.setAdapter(adapter_size);
                 // TODO
 
                 // Get the new pet's key in the database for storing the image
@@ -172,8 +176,18 @@ public class AddNewFragment extends Fragment {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri downloadPhotoUrl) {
-                        petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid(), species, age, color, size, fee));
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
+                        mDatabaseRef.child("listers/" + mFirebaseUser.getUid() + "/city").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                petsRef.child(key).setValue(new Pet(name, gender, info, key, downloadPhotoUrl.toString(), mFirebaseUser.getUid(), species, age, color, size, fee, dataSnapshot.getValue(String.class)));
+                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // do nothing
+                            }
+                        });
                     }
                 });
             }
@@ -214,7 +228,7 @@ public class AddNewFragment extends Fragment {
 
                         croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         ImageView imageView = getActivity().findViewById(R.id.image);
-                        imageView.setImageBitmap(imageBitmap);
+                        imageView.setImageBitmap(croppedBitmap);
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
                     }

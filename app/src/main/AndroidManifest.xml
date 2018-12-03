@@ -9,17 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".WorkModeActivity" />
-        <activity android:name=".ResetActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".WorkModeActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".ResetActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".AdopterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ViewPetActivity" />
+        <activity android:name=".ViewListerPetActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewApplicantsActivity"></activity>
+        <activity android:name=".ViewAdopterPetActivity"></activity>
+        <activity android:name=".ViewApplicantActivity"></activity>
+        <activity android:name=".ViewSwipeCardActivity"></activity>
     </application>
 
 </manifest>

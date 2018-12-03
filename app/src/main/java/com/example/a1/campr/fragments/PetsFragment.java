@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.models.Pet;
 import com.example.a1.campr.R;
-import com.example.a1.campr.ViewPetActivity;
+import com.example.a1.campr.ViewListerPetActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -83,15 +83,20 @@ public class    PetsFragment extends Fragment {
             @Override
             public PetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                View v = inflater.inflate(R.layout.row_layout, parent, false);
+                View v = inflater.inflate(R.layout.lister_row_layout, parent, false);
                 return new PetViewHolder(v);
             }
 
             @Override
             protected void onBindViewHolder(final PetViewHolder viewHolder, int position, Pet pet) {
+                viewHolder.applicantsTextView.setVisibility(View.GONE);
                 viewHolder.headerTextView.setText(pet.getName());
                 viewHolder.footerTextView.setText(pet.getGender());
                 viewHolder.idTextView.setText(pet.getId());
+                if (pet.getNumOfApplicants() > 0) {
+                    viewHolder.applicantsTextView.setVisibility(View.VISIBLE);
+                    viewHolder.applicantsTextView.setText(String.format("Applicants\n%d", pet.getNumOfApplicants()));
+                }
 
                 Glide.with(viewHolder.picImageView.getContext())
                         .load(pet.getPicUrl())
@@ -139,6 +144,7 @@ public class    PetsFragment extends Fragment {
         private TextView headerTextView;
         private TextView footerTextView;
         private TextView idTextView;
+        private TextView applicantsTextView;
         public View layout;
 
         private PetViewHolder(View v) {
@@ -148,6 +154,7 @@ public class    PetsFragment extends Fragment {
             headerTextView = v.findViewById(R.id.first_line);
             footerTextView = v.findViewById(R.id.second_line);
             idTextView = v.findViewById(R.id.pet_id);
+            applicantsTextView = v.findViewById(R.id.applicants);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +162,7 @@ public class    PetsFragment extends Fragment {
 //                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
 //                            new AddNewFragment()).commit();
                     String key = idTextView.getText().toString();
-                    Intent intent = new Intent(v.getContext(), ViewPetActivity.class);
+                    Intent intent = new Intent(v.getContext(), ViewListerPetActivity.class);
                     intent.putExtra("pet_id", key);
                     v.getContext().startActivity(intent);
                 }

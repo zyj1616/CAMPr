@@ -65,6 +65,14 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
+        // Initialize filters
+        filters = new HashMap<>();
+        filters.put("species", "Any");
+        filters.put("age", "Any");
+        filters.put("color", "Any");
+        filters.put("size", "Any");
+        filters.put("feeRange", "Any");
+
 //        mDatabaseRef.child("adopters").child(mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -214,9 +222,13 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
                 transaction.replace(R.id.fragment_container, new FavoriteFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_favorite);
                 break;
+            case R.id.nav_switch:
+                Intent intent = new Intent(AdopterActivity.this, WorkModeActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_signout:
                 mFirebaseAuth.signOut();
-                Intent intent = new Intent(AdopterActivity.this, LoginActivity.class);
+                intent = new Intent(AdopterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
         }

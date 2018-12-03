@@ -20,6 +20,8 @@ import com.example.a1.campr.fragments.PetsFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
 
 public class ListerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
@@ -54,19 +56,12 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         NavigationView navigationView = findViewById(R.id.nav_view);
         switch (item.getItemId()) {
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new EditListerProfileFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_profile);
-                break;
-            case R.id.nav_application:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ApplicationFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_application);
                 break;
             case R.id.nav_pets:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -78,9 +73,13 @@ public class ListerActivity extends AppCompatActivity implements NavigationView.
                         new AddNewFragment()).commit();
                 navigationView.setCheckedItem(R.id.nav_addnew);
                 break;
+            case R.id.nav_switch:
+                Intent intent = new Intent(ListerActivity.this, WorkModeActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_signout:
                 mFirebaseAuth.signOut();
-                Intent intent = new Intent(ListerActivity.this, LoginActivity.class);
+                intent = new Intent(ListerActivity.this, LoginActivity.class);
                 startActivity(intent);
                 break;
         }

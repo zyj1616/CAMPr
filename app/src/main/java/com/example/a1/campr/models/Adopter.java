@@ -15,17 +15,9 @@ public class Adopter {
     private HashMap<String, Boolean> chosenPets;
     private HashMap<String, Boolean> applications;
 
-    public HashMap<String, Boolean> getApplications() {
-        return applications;
-    }
-
-    public void setApplications(HashMap<String, Boolean> applications) {
-        this.applications = applications;
-    }
-
     public Adopter() {}
 
-    public Adopter(String firstname, String lastname, String email, String phoneNumber, String city, String state, String picUrl) {
+    public Adopter(String firstname, String lastname, String email, String phoneNumber, String city, String state, String picUrl, String id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -33,6 +25,15 @@ public class Adopter {
         this.city = city;
         this.state = state;
         this.picUrl = picUrl;
+        this.id = id;
+    }
+
+    public HashMap<String, Boolean> getApplications() {
+        return applications;
+    }
+
+    public void setApplications(HashMap<String, Boolean> applications) {
+        this.applications = applications;
     }
 
     public String getId() {

@@ -1,13 +1,14 @@
 package com.example.a1.campr;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.a1.campr.models.Application;
 import com.example.a1.campr.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class ViewPetActivity extends AppCompatActivity {
+public class ViewSwipeCardActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDatabaseRef;
@@ -28,6 +29,7 @@ public class ViewPetActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private DatabaseReference petRef;
+    private String petId;
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -40,7 +42,7 @@ public class ViewPetActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_pet);
+        setContentView(R.layout.activity_view_swipe_card);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -51,21 +53,33 @@ public class ViewPetActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference();
 
-        String pet_id = getIntent().getStringExtra("pet_id");
+        petId = getIntent().getStringExtra("pet_id");
 
-        petRef = mDatabaseRef.child("pets").child(pet_id);
+        petRef = mDatabaseRef.child("pets").child(petId);
 
         petRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Pet pet = snapshot.getValue(Pet.class);
-                TextView nameTextView = findViewById(R.id.name);
-                nameTextView.setText(pet.getName());
-                TextView genderTextView = findViewById(R.id.gender);
-                genderTextView.setText(pet.getGender());
-                TextView descriptionTextView = findViewById(R.id.description);
-                descriptionTextView.setText(pet.getInfo());
+
                 ImageView picImageView = findViewById(R.id.pic);
+                TextView nameTextView = findViewById(R.id.name);
+                TextView speciesTextView = findViewById(R.id.species);
+                TextView genderTextView = findViewById(R.id.gender);
+                TextView ageTextView = findViewById(R.id.age);
+                TextView colorTextView = findViewById(R.id.color);
+                TextView sizeTextView = findViewById(R.id.size);
+                TextView feeTextView = findViewById(R.id.adoption_fee);
+                TextView descriptionTextView = findViewById(R.id.description);
+
+                nameTextView.setText(pet.getName());
+                speciesTextView.setText(pet.getSpecies());
+                genderTextView.setText(pet.getGender());
+                ageTextView.setText(pet.getAge());
+                colorTextView.setText(pet.getColor());
+                sizeTextView.setText(pet.getSize());
+                feeTextView.setText("$" + pet.getFee());
+                descriptionTextView.setText(pet.getInfo());
 
                 Glide.with(picImageView.getContext())
                         .load(pet.getPicUrl())
@@ -77,22 +91,5 @@ public class ViewPetActivity extends AppCompatActivity {
                 // do nothing
             }
         });
-    }
-
-    public void deletePet(View view) {
-        petRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                snapshot.getRef().removeValue();
-                finish();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // do nothing
-            }
-        });
-
-        finish();
     }
 }

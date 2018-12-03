@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.ListerActivity;
@@ -38,6 +40,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditListerProfileFragment extends Fragment {
 
@@ -80,8 +84,21 @@ public class EditListerProfileFragment extends Fragment {
         final EditText lastnameEditText = activity.findViewById(R.id.lastname);
         final EditText emailEditText = activity.findViewById(R.id.email);
         final EditText phoneNumberEditText = activity.findViewById(R.id.phone_number);
-        final EditText cityEditText = activity.findViewById(R.id.city);
-        final EditText stateEditText = activity.findViewById(R.id.state);
+        final Spinner stateSpinner = activity.findViewById(R.id.state);
+        final Spinner citySpinner = activity.findViewById(R.id.city);
+
+        citySpinner.setEnabled(false);
+        citySpinner.setClickable(false);
+        stateSpinner.setEnabled(false);
+        stateSpinner.setClickable(false);
+
+        ArrayAdapter stateAdapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.states_no_any,R.layout.support_simple_spinner_dropdown_item);
+        stateAdapter.setDropDownViewResource(R.layout.spinner_item);
+        stateSpinner.setAdapter(stateAdapter);
+
+        ArrayAdapter cityAdapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.cities_no_any,R.layout.support_simple_spinner_dropdown_item);
+        cityAdapter.setDropDownViewResource(R.layout.spinner_item);
+        citySpinner.setAdapter(cityAdapter);
 
         mDatabaseRef.child("listers").child(mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -95,8 +112,8 @@ public class EditListerProfileFragment extends Fragment {
                     lastnameEditText.setText(lister.getLastname());
                     emailEditText.setText(lister.getEmail());
                     phoneNumberEditText.setText(lister.getPhoneNumber());
-                    cityEditText.setText(lister.getCity());
-                    stateEditText.setText(lister.getState());
+                    stateSpinner.setSelection(stateAdapter.getPosition(lister.getState()));
+                    citySpinner.setSelection(cityAdapter.getPosition(lister.getCity()));
                 }
 
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -119,8 +136,10 @@ public class EditListerProfileFragment extends Fragment {
                         lastnameEditText.setEnabled(true);
                         emailEditText.setEnabled(true);
                         phoneNumberEditText.setEnabled(true);
-                        cityEditText.setEnabled(true);
-                        stateEditText.setEnabled(true);
+                        citySpinner.setEnabled(true);
+                        citySpinner.setClickable(true);
+                        stateSpinner.setEnabled(true);
+                        stateSpinner.setClickable(true);
                     }
                 });
 
@@ -134,15 +153,17 @@ public class EditListerProfileFragment extends Fragment {
                         lastnameEditText.setEnabled(false);
                         emailEditText.setEnabled(false);
                         phoneNumberEditText.setEnabled(false);
-                        cityEditText.setEnabled(false);
-                        stateEditText.setEnabled(false);
+                        citySpinner.setEnabled(false);
+                        citySpinner.setClickable(false);
+                        stateSpinner.setEnabled(false);
+                        stateSpinner.setClickable(false);
 
                         String firstname = firstnameEditText.getText().toString();
                         String lastname = lastnameEditText.getText().toString();
                         String email = emailEditText.getText().toString();
                         String phoneNumber = phoneNumberEditText.getText().toString();
-                        String city = cityEditText.getText().toString();
-                        String state = stateEditText.getText().toString();
+                        String city = citySpinner.getSelectedItem().toString();
+                        String state = stateSpinner.getSelectedItem().toString();
 
                         // Upload the lister profile image to Firebase Cloud Storage and retrieve the link
 
@@ -155,15 +176,6 @@ public class EditListerProfileFragment extends Fragment {
                                     .child(imageUri.getLastPathSegment());
                             updateListerWithNewImage(imageRef, firstname, lastname, email, phoneNumber, city, state, mFirebaseUser.getUid());
                         }
-                    }
-                });
-
-                Button backButton = activity.findViewById(R.id.back);
-                backButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ListerActivity.class);
-                        startActivity(intent);
                     }
                 });
             }
@@ -190,7 +202,19 @@ public class EditListerProfileFragment extends Fragment {
     }
 
     private void updateLister(final String firstname, final String lastname, final String email, final String phoneNumber, final String city, final String state, final String picUrl, final String key) {
-        mDatabase.getReference("listers").child(key).setValue(new Lister(firstname, lastname, email, phoneNumber, city, state, picUrl));
+        Map<String, Object> updatedPart = new HashMap<>();
+
+        updatedPart.put("firstname", firstname);
+        updatedPart.put("lastname", lastname);
+        updatedPart.put("email", email);
+        updatedPart.put("phoneNumber", phoneNumber);
+        updatedPart.put("city", city);
+        updatedPart.put("state", city);
+        updatedPart.put("picUrl", picUrl);
+        updatedPart.put("id", key);
+
+        mDatabase.getReference("listers").child(key).updateChildren(updatedPart);
+        mDatabase.getReference("adopters").child(key).updateChildren(updatedPart);
     }
 
     @Override
@@ -227,7 +251,7 @@ public class EditListerProfileFragment extends Fragment {
 
                         croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         ImageView imageView = getActivity().findViewById(R.id.profile_pic);
-                        imageView.setImageBitmap(imageBitmap);
+                        imageView.setImageBitmap(croppedBitmap);
                     } catch (IOException e) {
                         Log.i("TAG", "Some exception " + e);
                     }
