@@ -159,17 +159,38 @@ public class AddNewFragment extends Fragment {
 
                 // Upload the pet image to Firebase Cloud Storage and retrieve the link
 
-                StorageReference imageRef = mStorage
-                        .getReference(mFirebaseUser.getUid())
-                        .child(key)
-                        .child(imageUri.getLastPathSegment());
+                if (imageUri == null) {
+                    addNewPetToDatabase(petsRef, name, gender, info, key, species, age, color, size, fee);
+                } else {
+                    StorageReference imageRef = mStorage
+                            .getReference(mFirebaseUser.getUid())
+                            .child(key)
+                            .child(imageUri.getLastPathSegment());
 
-                addNewPetToDatabase(imageRef, imageUri, petsRef, name, gender, info, key, species, age, color, size, fee);
+                    addNewPetToDatabaseWithPic(imageRef, imageUri, petsRef, name, gender, info, key, species, age, color, size, fee);
+                }
             }
         });
     }
 
-    private void addNewPetToDatabase(final StorageReference storageReference, final Uri uri, final DatabaseReference petsRef, final String name, final String gender, final String info, final String key, final String species, final String age, final String color, final String size, final int fee) {
+    private void addNewPetToDatabase(DatabaseReference petsRef, String name, String gender, String info, String key, String species, String age, String color, String size, int fee) {
+        String picUrl = "https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/default_images%2Fno_image.jpg?alt=media&token=9e66f1f3-9c6e-4f0e-8d45-ae04a3c0c010";
+
+        mDatabaseRef.child("listers/" + mFirebaseUser.getUid() + "/city").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                petsRef.child(key).setValue(new Pet(name, gender, info, key, picUrl, mFirebaseUser.getUid(), species, age, color, size, fee, dataSnapshot.getValue(String.class)));
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddNewFragment()).commit();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // do nothing
+            }
+        });
+    }
+
+    private void addNewPetToDatabaseWithPic(final StorageReference storageReference, final Uri uri, final DatabaseReference petsRef, final String name, final String gender, final String info, final String key, final String species, final String age, final String color, final String size, final int fee) {
         storageReference.putBytes(baos.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

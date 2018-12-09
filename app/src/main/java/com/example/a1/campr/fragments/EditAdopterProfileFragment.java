@@ -168,7 +168,12 @@ public class EditAdopterProfileFragment extends Fragment {
                         // Upload the adopter profile image to Firebase Cloud Storage and retrieve the link
 
                         if (imageUri == null) {
-                            updateAdopter(firstname, lastname, email, phoneNumber, city, state, adopter.getPicUrl(), mFirebaseUser.getUid());
+                            String picUrl;
+                            if (dataSnapshot.getValue() != null)
+                                picUrl = adopter.getPicUrl();
+                            else
+                                picUrl = "https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/default_images%2Fanonymous_person.jpg?alt=media&token=06468455-4b7a-4584-b31e-303b36c41c72";
+                            updateAdopter(firstname, lastname, email, phoneNumber, city, state, picUrl, mFirebaseUser.getUid());
                         } else {
                             StorageReference imageRef = mStorage
                                     .getReference(mFirebaseUser.getUid())

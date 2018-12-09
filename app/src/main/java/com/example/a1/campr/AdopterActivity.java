@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.a1.campr.fragments.EditAdopterProfileFragment;
@@ -99,8 +100,23 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_swipe_cards);
+        mDatabaseRef.child("adopters/" + mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EditAdopterProfileFragment()).commit();
+                    navigationView.setCheckedItem(R.id.nav_profile);
+                } else {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
+                    navigationView.setCheckedItem(R.id.nav_swipe_cards);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // do nothing
+            }
+        });
 
 //        showSwipeCards();
     }
@@ -202,37 +218,52 @@ public class AdopterActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        View view = findViewById(R.id.swipe_cards_view);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        switch (item.getItemId()) {
-            case R.id.nav_swipe_cards:
-                transaction.replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_swipe_cards);
-                break;
-            case R.id.nav_profile:
-                transaction.replace(R.id.fragment_container, new EditAdopterProfileFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_profile);
-                break;
-            case R.id.nav_preference:
-                transaction.replace(R.id.fragment_container, new PreferenceFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_preference);
-                break;
-            case R.id.nav_favorite:
-                transaction.replace(R.id.fragment_container, new FavoriteFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_favorite);
-                break;
-            case R.id.nav_switch:
-                Intent intent = new Intent(AdopterActivity.this, WorkModeActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.nav_signout:
-                mFirebaseAuth.signOut();
-                intent = new Intent(AdopterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                break;
-        }
-        drawer.closeDrawer(GravityCompat.START);
+        mDatabaseRef.child("adopters/" + mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) {
+                    Toast.makeText(AdopterActivity.this, "Please complete your profile first", Toast.LENGTH_LONG).show();
+                } else {
+                    View view = findViewById(R.id.swipe_cards_view);
+                    NavigationView navigationView = findViewById(R.id.nav_view);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    switch (item.getItemId()) {
+                        case R.id.nav_swipe_cards:
+                            transaction.replace(R.id.fragment_container, new SwipeCardsFragment()).commit();
+                            navigationView.setCheckedItem(R.id.nav_swipe_cards);
+                            break;
+                        case R.id.nav_profile:
+                            transaction.replace(R.id.fragment_container, new EditAdopterProfileFragment()).commit();
+                            navigationView.setCheckedItem(R.id.nav_profile);
+                            break;
+                        case R.id.nav_preference:
+                            transaction.replace(R.id.fragment_container, new PreferenceFragment()).commit();
+                            navigationView.setCheckedItem(R.id.nav_preference);
+                            break;
+                        case R.id.nav_favorite:
+                            transaction.replace(R.id.fragment_container, new FavoriteFragment()).commit();
+                            navigationView.setCheckedItem(R.id.nav_favorite);
+                            break;
+                        case R.id.nav_switch:
+                            Intent intent = new Intent(AdopterActivity.this, WorkModeActivity.class);
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_signout:
+                            mFirebaseAuth.signOut();
+                            intent = new Intent(AdopterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            break;
+                    }
+                    drawer.closeDrawer(GravityCompat.START);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // do nothing
+            }
+        });
+
         return true;
     }
 

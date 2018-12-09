@@ -168,6 +168,12 @@ public class EditListerProfileFragment extends Fragment {
                         // Upload the lister profile image to Firebase Cloud Storage and retrieve the link
 
                         if (imageUri == null) {
+                            String picUrl;
+                            if (dataSnapshot.getValue() != null) {
+                                picUrl = lister.getPicUrl();
+                            } else {
+                                picUrl = "https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/default_images%2Fanonymous_person.jpg?alt=media&token=06468455-4b7a-4584-b31e-303b36c41c72";
+                            }
                             updateLister(firstname, lastname, email, phoneNumber, city, state, lister.getPicUrl(), mFirebaseUser.getUid());
                         } else {
                             StorageReference imageRef = mStorage
