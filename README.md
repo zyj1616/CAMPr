@@ -1,4 +1,5 @@
 # CAMPr
+Some simple instructions about our app are as follows.
 1. Sign up
 2. Log in
 <img src="https://firebasestorage.googleapis.com/v0/b/campr-e847b.appspot.com/o/screen_samples%2Flogin.png?alt=media&token=00559922-6372-4c3b-b2d2-373e5908a39e" width="200">  
